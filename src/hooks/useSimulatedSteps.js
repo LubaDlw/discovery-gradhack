@@ -1,34 +1,33 @@
 import { useEffect, useState } from "react";
 
-let sharedSteps = 1264;        // Persistent shared state
-let lastTimestamp = Date.now(); // Track last update time
+let sharedSteps = 11264;
 
 export default function useSimulatedSteps() {
   const [steps, setSteps] = useState(sharedSteps);
 
   useEffect(() => {
-    const updateSteps = () => {
-      const now = Date.now();
-      const secondsPassed = Math.floor((now - lastTimestamp) / 2000);
-      if (secondsPassed >= 1) {
-        sharedSteps += secondsPassed;
-        lastTimestamp = now;
-        setSteps(sharedSteps);
-      }
+    let timeoutId;
+
+    const simulateStepIncrease = () => {
+      // Random step increment between 1 and 8
+      const stepIncrement = Math.floor(Math.random() * 8) + 1;
+
+      sharedSteps += stepIncrement;
+      setSteps(sharedSteps);
+
+      // Random delay between 2 and 8 seconds
+      const delay = Math.floor(Math.random() * 10000) + 2000;
+
+      timeoutId = setTimeout(simulateStepIncrease, delay);
     };
 
-    const intervalId = setInterval(() => {
-      updateSteps();
-    }, 1000); // check every 1s to see if 2s have passed
+    simulateStepIncrease(); // Start simulation
 
-    return () => {
-      clearInterval(intervalId); // stop counting when user navigates away
-    };
+    return () => clearTimeout(timeoutId); 
   }, []);
 
   useEffect(() => {
-    // Always sync the latest sharedSteps into local state when component loads
-    setSteps(sharedSteps);
+    setSteps(sharedSteps); 
   }, []);
 
   return steps;
