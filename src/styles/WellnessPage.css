@@ -5,21 +5,19 @@
   margin-left: 290px;
   gap: 20px;
 }
-.wellness-Card {
-  background-color: rgb(45, 43, 43);
-  border-radius: 15px;
-  justify-content: center; 
-}
+
 .wellness-Text {
   color: #5E4961;
   background-color: white;
   font-size: 25px;
   text-align: center;
   font-weight: bold;
+  transform: translateY(-460px);
 }
 .unavailable-Text {
-  color: #FFEBD7;
+  color: #5E4961;
   font-size: 15;
+  transform: translateY(-440px);
 }
 .buttonsWrapper {
   display: flex;
@@ -50,7 +48,7 @@
 }
 .checkData:hover {
   background-color: #031839;
-  transform: scale(1.1);
+  transform: scale(1.0);
 }
 
 .day-selector {

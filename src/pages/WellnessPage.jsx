@@ -75,7 +75,7 @@ function WellnessPage() {
           {renderTaskButtons()}
         </div>
       ) : (
-        <p className='unavailable-Text'>No available challenge for this day.</p>
+        <p className='unavailable-Text'>No day selected yet .</p>
       )}
       </div>
       </div>
