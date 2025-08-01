@@ -25,8 +25,9 @@ const DumiChatbot = () => {
     const audioChunksRef = useRef([]);
     const audioPlayerRef = useRef(null);
 
-    // NEW STATE: To track the last input method (e.g., 'text' or 'voice')
-    const [lastInputMethod, setLastInputMethod] = useState('text'); // Default to text
+    // Keep this state to reflect the *current* user preference/last action,
+    // but pass it explicitly to sendMessage to ensure accurate behavior for that call.
+    const [lastInputMethod, setLastInputMethod] = useState('text');
 
     // Initialize Firebase and welcome message
     useEffect(() => {
@@ -73,13 +74,12 @@ const DumiChatbot = () => {
 
     // Function to start recording audio
     const startRecording = async () => {
-        // Stop any currently playing bot audio if recording starts
         if (audioPlayerRef.current && !audioPlayerRef.current.paused) {
             audioPlayerRef.current.pause();
         }
 
         // Set input method to voice when recording starts
-        setLastInputMethod('voice');
+        setLastInputMethod('voice'); // This updates the state
 
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -167,8 +167,9 @@ const DumiChatbot = () => {
 
                 if (transcribedText) {
                     console.log("Transcribed:", transcribedText);
-                    // Crucial: We already set lastInputMethod to 'voice' in startRecording
-                    await sendMessage(transcribedText, 'voice'); // Pass the input method
+                    // *** IMPORTANT CHANGE HERE ***
+                    // Pass 'voice' explicitly to sendMessage
+                    await sendMessage(transcribedText, 'voice');
                     setInputValue('');
                 } else {
                     console.log("No speech detected.");
@@ -291,13 +292,14 @@ const DumiChatbot = () => {
         });
     };
 
-    // Modify sendMessage to accept an optional inputMethod parameter
-    const sendMessage = async (message, inputMethod = 'text') => { // Default to 'text'
+    // sendMessage now explicitly uses the provided inputMethod for its logic
+    const sendMessage = async (message, inputMethod = 'text') => { // Default to 'text' if not specified
         if (!message.trim() && !isRecording) {
             return;
         }
 
-        // Set the last input method based on how sendMessage was called
+        // We can still update lastInputMethod state, but the conditional logic
+        // will rely on the `inputMethod` argument directly.
         setLastInputMethod(inputMethod);
 
         // Add user message
@@ -326,11 +328,10 @@ const DumiChatbot = () => {
 
             setChatHistory([...newChatHistory, { role: "model", parts: [{ text: botResponse }] }]);
 
-            // Conditional TTS call based on lastInputMethod
-            if (lastInputMethod === 'voice') {
+            // Conditional TTS call based on the `inputMethod` ARGUMENT
+            if (inputMethod === 'voice') { // <--- Rely on the passed argument
                 await sendTextForSpeechSynthesis(botResponse);
             } else {
-                // If input was text, just display the text and turn off loading
                 setIsLoading(false);
             }
 
@@ -345,8 +346,6 @@ const DumiChatbot = () => {
             setIsLoading(false);
         } finally {
             // Loading state is now conditionally managed.
-            // If TTS is called, its finally block handles isLoading.
-            // If not, it's handled directly in the else block above.
         }
     };
 
@@ -390,7 +389,7 @@ const DumiChatbot = () => {
                 <ChatInput
                     inputValue={inputValue}
                     setInputValue={setInputValue}
-                    onSend={sendMessage} // This will be called for text input, default inputMethod is 'text'
+                    onSend={(message) => sendMessage(message, 'text')} // *** IMPORTANT CHANGE HERE ***
                     isLoading={isLoading}
                     onStartRecording={startRecording}
                     onStopRecording={stopRecording}
