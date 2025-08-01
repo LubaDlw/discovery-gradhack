@@ -1,4 +1,3 @@
-// components/chatbot/ChatInput.jsx
 import React from 'react';
 
 const ChatInput = ({ 

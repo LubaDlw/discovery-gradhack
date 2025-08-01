@@ -7,7 +7,8 @@ import { FirebaseService } from '../../services/firebaseService';
 import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGE } from '../../utils/constants';
 
 // Base URL for your backend server
-// IMPORTANT: Change this to your actual backend URL when deploying!
+// IMPORTANT: This BACKEND_URL is now *not* used for Speech-to-Text or Text-to-Speech.
+// It remains here if you have other backend API calls in your application.
 const BACKEND_URL = 'http://localhost:5000'; 
 
 const DumiChatbot = () => {
@@ -101,7 +102,6 @@ const DumiChatbot = () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
         await sendAudioForTranscription(audioBlob);
         audioChunksRef.current = []; // Clear chunks after sending
-        // setIsLoading(false); // isLoading will be set by sendMessage or playBotResponseAudio
       };
 
       mediaRecorderRef.current.start();
@@ -124,7 +124,7 @@ const DumiChatbot = () => {
     }
   };
 
-  // Function to send recorded audio to backend for transcription
+  // Function to send recorded audio to Google Cloud for transcription
   const sendAudioForTranscription = async (audioBlob) => {
     try {
       const reader = new FileReader();
@@ -133,33 +133,47 @@ const DumiChatbot = () => {
       reader.onloadend = async () => {
         const base64Audio = reader.result.split(',')[1]; // Get the base64 part
         
-        console.log("Sending audio for transcription...");
-        const response = await fetch(`${BACKEND_URL}/api/speech-to-text`, {
+        console.log("Sending audio for transcription to Google Cloud STT directly...");
+
+        let audioEncoding = 'WEBM_OPUS'; 
+        const sampleRateHertz = 48000; // Common default, adjust if your browser records differently
+
+        const response = await fetch(`https://speech.googleapis.com/v1/speech:recognize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ audio: base64Audio }),
+          body: JSON.stringify({
+            config: {
+              encoding: audioEncoding,
+              sampleRateHertz: sampleRateHertz,
+              languageCode: 'en-US', // Adjust language as needed
+              model: 'default', // Or 'latest_long', 'command_and_search', etc.
+            },
+            audio: {
+              content: base64Audio,
+            },
+          }),
         });
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(`Backend STT error: ${errorData.error || response.statusText}`);
+          console.error("Google Cloud STT API Error:", errorData);
+          throw new Error(`Google Cloud STT error: ${errorData.error.message || response.statusText}`);
         }
 
         const data = await response.json();
-        const transcribedText = data.transcription;
+        const transcribedText = data.results && data.results.length > 0
+          ? data.results[0].alternatives[0].transcript
+          : '';
 
         if (transcribedText) {
           console.log("Transcribed:", transcribedText);
-          // Automatically send the transcribed text to the chatbot
-          // This will call your existing sendMessage function
           await sendMessage(transcribedText); 
-          setInputValue(''); // Clear input after sending
+          setInputValue(''); 
         } else {
-          // Handle cases where no speech was detected
           console.log("No speech detected.");
-          setIsLoading(false); // Stop loading if nothing was transcribed
+          setIsLoading(false); 
           setMessages(prev => [...prev, {
             id: Date.now() + 1,
             sender: 'bot',
@@ -190,25 +204,43 @@ const DumiChatbot = () => {
     }
   };
 
-  // Function to send chatbot's text response to backend for speech synthesis
+  // Function to send chatbot's text response to Google Cloud for speech synthesis
   const sendTextForSpeechSynthesis = async (text) => {
     try {
-      console.log("Sending text for speech synthesis...");
-      const response = await fetch(`${BACKEND_URL}/api/text-to-speech`, {
+      console.log("Sending text for speech synthesis to Google Cloud TTS directly...");
+      const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: text }),
+        body: JSON.stringify({
+          input: {
+            text: text,
+          },
+          // Choose a voice. 'en-US-Wavenet-D' is a common male voice, 'en-US-Wavenet-C' is female.
+          // Wavenet voices are high quality but might have higher costs.
+          // You can explore voices here: https://cloud.google.com/text-to-speech/docs/voices
+          voice: {
+            languageCode: 'en-US',
+            name: 'en-US-Wavenet-D', 
+            ssmlGender: 'MALE', // Or 'FEMALE', 'NEUTRAL'
+          },
+          audioConfig: {
+            audioEncoding: 'MP3', // We want MP3 for direct playback in HTML Audio element
+            speakingRate: 1.0, // Adjust speed if needed (0.25 to 4.0)
+            pitch: 0.0, // Adjust pitch if needed (-20.0 to 20.0)
+          },
+        }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(`Backend TTS error: ${errorData.error || response.statusText}`);
+        console.error("Google Cloud TTS API Error:", errorData);
+        throw new Error(`Google Cloud TTS error: ${errorData.error.message || response.statusText}`);
       }
 
       const data = await response.json();
-      const audioContentBase64 = data.audioContent; // This is the base64 encoded MP3
+      const audioContentBase64 = data.audioContent; // This is the base64 encoded audio
 
       if (audioContentBase64) {
         await playAudio(audioContentBase64);
@@ -218,6 +250,12 @@ const DumiChatbot = () => {
     } catch (error) {
       console.error("Error synthesizing speech:", error);
       // Don't block the chat, just log the error and don't play audio
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        sender: 'bot',
+        text: `(Voice playback error: ${error.message})`, // Indicate error to user visually
+        timestamp: new Date()
+      }]);
     } finally {
       setIsLoading(false); // Ensure loading is off after TTS attempt
     }
@@ -231,17 +269,17 @@ const DumiChatbot = () => {
         return reject("Audio player not initialized.");
       }
 
-      const audioSrc = `data:audio/mp3;base64,${base64Audio}`; // Assuming MP3 from backend
+      const audioSrc = `data:audio/mp3;base64,${base64Audio}`; // Assuming MP3 from Google Cloud TTS
       audioPlayerRef.current.src = audioSrc;
 
       audioPlayerRef.current.oncanplaythrough = () => {
         audioPlayerRef.current.play().catch(e => {
-          console.error("Error playing audio:", e);
+          console.error("Error playing audio (from oncanplaythrough):", e);
           reject(e);
         });
       };
       audioPlayerRef.current.onerror = (e) => {
-        console.error("Audio playback error:", e);
+        console.error("Audio playback error (general):", e);
         reject(e);
       };
       // For immediate resolve if it's already ready
@@ -274,7 +312,7 @@ const DumiChatbot = () => {
       text: message,
       timestamp: new Date()
     }]);
-    setInputValue(''); // Clear input after sending text message
+    setInputValue(''); 
 
     setIsLoading(true);
 
@@ -297,7 +335,7 @@ const DumiChatbot = () => {
       // Update chat history with bot response
       setChatHistory([...newChatHistory, { role: "model", parts: [{ text: botResponse }] }]);
 
-      // *** New: Play bot response audio ***
+      // *** Now calling TTS directly from frontend ***
       await sendTextForSpeechSynthesis(botResponse);
 
     } catch (error) {
@@ -308,13 +346,10 @@ const DumiChatbot = () => {
         text: `Oops! Something went wrong: ${error.message}. Please try again.`,
         timestamp: new Date()
       }]);
-      setIsLoading(false); // Ensure loading is off on error
+      setIsLoading(false); 
     } finally {
-      // isLoading is primarily controlled by the TTS completion now,
-      // or set to false immediately if TTS fails or isn't used.
-      // If you want loading to reflect just the Gemini call, move this inside try/catch blocks
-      // For full voice interaction, keep it here or inside playAudio's onended.
-      // For now, it will be set by sendTextForSpeechSynthesis's finally block
+      // Loading state is now managed by sendTextForSpeechSynthesis's finally block
+      // or set to false immediately if TTS fails.
     }
   };
 
