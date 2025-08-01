@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'Student-Font';
+  src: url('../fonts/Student-Font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; 
+}
+
+@font-face {
+  font-family: 'Discovery-Font';
+  src: url('../fonts/Discovery-Font.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000; 
+  background: white;
+  border-bottom: 3px solid #64497e;
+  padding: 10px 20px;
+  font-family: 'Discovery-Font', sans-serif;
+  letter-spacing: 1px;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section .logo-text {
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: #5E4961;
+  font-family: 'Discovery-Font', sans-serif;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 65px;  
+  height: 67px;
+  object-fit: contain;
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #705378;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: color 0.3s;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  border-bottom: 2px solid #76567f;
+  color: #76567f;
+}
+
+.auth-section .login-button {
+  background-color: #444B7F;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.student-overlay {
+  position: absolute;
+  top: 40px;
+  left: 120px;
+  font-family: 'Student-Font', sans-serif;
+  font-size: 55px;
+  color: #64497e;
+  transform: rotate(-5deg);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1) rotate(-5deg); }
+  50%  { transform: scale(1.07) rotate(-5deg); }
+  100% { transform: scale(1) rotate(-5deg); }
+}
+
+.student-overlay {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+
+.navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #d4d4d4;
+}
+
+.nav-links button:nth-child(-n+5) {
+  margin-right: 20px;
+}
+
+.nav-links button:nth-child(6) {
+  margin-left: auto;
+}
