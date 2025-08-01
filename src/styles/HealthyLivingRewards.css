@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'Discovery-Font';
+    src: url('../fonts/Discovery-Font.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+.healthy-living-container-wrapper {
+    width: 270px; 
+    user-select: none;
+  }
+  
+  .healthy-living-container {
+    padding-top: 20px;
+    width: 270px;
+    overflow-x: auto;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 0.5rem; 
+  }
+  
+  .healthy-living-container:active {
+    cursor: grabbing;
+  }
+  
+  .icons-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .icon-wrapper {
+    flex: 0 0 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .icon-wrapper:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .icon-wrapper.selected {
+    background-color: #d0e2ff;
+  }
+  
+  .icon-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .description-box {
+    font-family: 'Discovery-Font';
+    padding-top: 20px;
+    font-size: 0.9rem;
+    color: #333;
+    min-height: 40px;
+    border-top: 1px solid #ddd;
+  }
+  

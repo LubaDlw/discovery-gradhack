@@ -7,7 +7,7 @@ import wellnessIcon from '../assets/mindfulness.png';
 import DonutProgress from '../components/DonutProgress';
 import MultiRingProgress from "../components/MultiRingProgress";
 import useSimulatedSteps from "../hooks/useSimulatedSteps";
-
+import HealthyLivingRewards from '../components/HealthyLivingRewards';
 
 function HomePage() {
   const steps = useSimulatedSteps();
@@ -68,6 +68,7 @@ function HomePage() {
         <div className="inner-boxes">
           <div className="inner-box left-box">
             <h4>HealthyLiving rewards</h4>
+            <HealthyLivingRewards />
           </div>
           <div className="inner-box right-box">
             <h4>Challenges</h4>
