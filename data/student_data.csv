@@ -1,0 +1,79 @@
+fast_food_pct,logins_per_week,chatbot_topic,recommended_tip,mood_score,daily_steps,water_drank
+0.65,12,stress,meal prep,7,769,1.46
+0.30,5,finance,savings account,4,10583,3.06
+0.75,14,anxiety,counseling,8,13803,0.70
+0.20,6,academic,study group,5,6949,1.46
+0.55,10,budgeting,meal prep,7,2433,1.83
+0.40,3,stress,mental health check-in,6,8120,2.52
+0.85,16,fast food,meal planning,9,11424,3.13
+0.15,8,finance,budgeting app,3,10275,2.34
+0.60,9,anxiety,mindfulness,7,7123,4.96
+0.35,4,academic,time management course,5,9285,2.01
+0.70,13,stress,walks or outdoor breaks,6,6329,3.65
+0.25,2,budgeting,open a student savings account,4,1029,0.98
+0.50,7,academic,academic advisor consultation,7,3642,3.52
+0.95,18,fast food,healthy eating course,9,14706,4.20
+0.45,5,anxiety,peer support group,6,5178,2.75
+0.68,11,finance,investment webinar,7,8123,2.12
+0.33,7,academic,library resources,5,4087,3.40
+0.80,15,stress,relaxation techniques,8,14456,2.83
+0.22,6,budgeting,cost-cutting tips,4,3441,1.66
+0.57,9,fast food,healthy alternatives,7,6792,3.97
+0.43,4,anxiety,coping strategies,5,5798,1.54
+0.72,14,finance,retirement planning,8,13647,3.39
+0.29,3,academic,peer tutoring,4,2905,2.10
+0.53,8,stress,yoga sessions,6,7512,2.99
+0.38,5,budgeting,bill reminders,5,4238,1.22
+0.88,17,fast food,nutrition facts education,9,13145,4.35
+0.17,6,anxiety,journaling,3,6051,2.40
+0.64,10,finance,credit score tips,7,8164,3.67
+0.26,4,academic,exam preparation,5,5328,1.15
+0.58,9,stress,mindful breathing,6,7380,2.45
+0.42,3,budgeting,expense tracking app,5,3917,2.77
+0.77,13,fast food,meal substitutions,8,11923,3.75
+0.19,5,anxiety,support groups,4,4599,2.85
+0.61,8,finance,savings challenge,7,7001,1.99
+0.34,3,academic,study schedule,5,3782,3.03
+0.42,7,academic,study groups,6,7194,2.41
+0.77,12,stress,meditation,8,10632,3.16
+0.29,5,finance,budget app,5,4321,2.88
+0.83,16,fast food,meal planning,9,11253,3.52
+0.21,4,budgeting,expense tracking,4,2845,1.76
+0.48,9,anxiety,mindfulness exercises,7,6705,3.29
+0.64,11,finance,savings plan,8,9001,2.74
+0.38,6,academic,online courses,6,5500,2.22
+0.59,10,stress,walks,7,8302,3.75
+0.17,3,budgeting,saving tips,4,2792,1.85
+0.50,8,fast food,healthy alternatives,6,7800,3.01
+0.72,13,anxiety,peer support,8,10001,2.99
+0.27,5,finance,investment advice,5,4900,2.58
+0.85,15,stress,yoga,9,11400,3.80
+0.36,7,academic,time management,6,6100,2.33
+0.54,9,budgeting,financial planning,7,7200,2.90
+0.69,12,fast food,nutrition education,8,10500,3.40
+0.20,4,anxiety,counseling,5,3500,1.99
+0.45,8,finance,credit tips,6,7700,3.20
+0.60,10,stress,relaxation techniques,7,9000,3.45
+0.31,6,budgeting,budget apps,5,5600,2.15
+0.75,14,academic,exam prep,8,11000,3.65
+0.22,3,fast food,healthy eating,4,2300,1.50
+0.53,9,anxiety,mindful breathing,6,7300,3.05
+0.67,11,finance,loan advice,7,8800,2.80
+0.41,6,stress,sleep hygiene,6,6000,2.50
+0.58,10,budgeting,debt management,7,8300,3.30
+0.24,5,academic,study groups,5,4800,1.95
+0.62,12,fast food,portion control,8,10050,3.55
+0.18,4,finance,budgeting tips,4,3400,2.05
+0.39,7,self-care,journaling,6,6400,2.85
+0.55,9,love and relationships,healthy communication,7,7500,3.15
+0.44,6,sleep improvement,sleep hygiene tips,5,5600,2.65
+0.33,5,emotion regulation,breathing exercises,4,4200,2.10
+0.72,14,mindfulness,guided meditation,8,11000,3.80
+0.28,4,cognitive behavioral therapy,reframing negative thoughts,5,3700,2.00
+0.60,8,gratitude practice,daily gratitude journaling,7,7600,3.20
+0.26,3,career development,skill-building resources,4,3100,1.90
+0.84,15,physical activity,daily exercise reminders,9,12500,3.90
+0.50,7,creativity,art therapy sessions,6,6800,2.80
+0.65,11,relaxation techniques,visualization exercises,7,9500,3.40
+0.21,3,addiction recovery,craving management strategies,4,2500,1.60
+0.47,6,labor support,joining support groups,6,6000,2.60
