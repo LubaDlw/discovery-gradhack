@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-let sharedSteps = 1764;        // Persistent shared state
+let sharedSteps = 1264;        // Persistent shared state
 let lastTimestamp = Date.now(); // Track last update time
 
 export default function useSimulatedSteps() {
