@@ -1,11 +1,14 @@
 import React from 'react';
-import { Bot } from 'lucide-react';
+import { Bot, X } from 'lucide-react'; // Import X icon for the close button
 
 const ChatHeader = () => (
-  <div className="bg-purple-700 text-white p-4 sm:p-5 rounded-t-xl flex items-center justify-between shadow-md">
-    <h1 className="text-2xl font-bold">Dumi AI Chatbot</h1>
-    <Bot className="w-8 h-8" />
-  </div>
+    <div className="chat-header"> {/* Apply the new CSS class */}
+        <h1 className="chat-header-title">Dumzii Chat</h1> {/* Apply the new CSS class */}
+        {/* Close button - based on wireframe */}
+        <button className="text-white hover:text-gray-200 transition-colors" aria-label="Close Chat">
+            <X className="w-6 h-6" /> {/* X icon for closing */}
+        </button>
+    </div>
 );
 
 export default ChatHeader;

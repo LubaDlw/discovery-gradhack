@@ -1,14 +1,15 @@
+// src/components/chatbot/ChatMessage.jsx
 import React from 'react';
 
 const ChatMessage = ({ message }) => {
   const isUser = message.sender === 'user';
   
   return (
-    <div className={`message flex ${isUser ? 'justify-end' : 'items-start space-x-3'}`}>
-      <div className={`p-3 rounded-lg max-w-[80%] whitespace-pre-wrap ${
+    <div className={`message flex ${isUser ? 'justify-end' : 'items-start'}`}>
+      <div className={`p-3 rounded-lg max-w-[80%] whitespace-pre-wrap text-base break-words ${
         isUser 
-          ? 'bg-blue-600 text-white rounded-br-none' 
-          : 'bg-blue-200 text-blue-800 rounded-tl-none'
+          ? 'bg-purple-700 text-white rounded-br-none shadow-md ml-auto' // Added ml-auto here
+          : 'bg-gray-100 text-gray-800 rounded-tl-none shadow-sm' 
       }`}>
         {message.text}
       </div>
