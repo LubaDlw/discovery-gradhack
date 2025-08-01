@@ -134,3 +134,47 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+#service account key
+serviceAccountKey.json
+
+# Python virtual environment
+venv/
+env/
+.venv/
+
+# Byte-code files
+*.pyc
+*.pyo
+__pycache__/
+
+# C extensions
+*.so
+*.dll
+*.dylib
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Tests
+.pytest_cache/
+
+# Editors/IDEs
+.vscode/ # VS Code specific settings/files
+.idea/   # PyCharm/IntelliJ IDEA specific files
+*.sublime-project
+*.sublime-workspace
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Environment variables files
+.env

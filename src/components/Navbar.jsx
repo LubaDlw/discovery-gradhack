@@ -10,7 +10,7 @@ function Navbar() {
 
   const handleNavigate = (path) => {
     navigate(path);
-    setMenuOpen(false); // close mobile menu if open
+    setMenuOpen(false);
   };
 
   const isActive = (path) => location.pathname === path;
@@ -33,7 +33,6 @@ function Navbar() {
 
   <div className="student-overlay">STUDENT</div>
 
-  {/* Nav is now below header */}
   <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
     {[
       { path: "/", label: "HOME" },
@@ -41,6 +40,7 @@ function Navbar() {
       { path: "/finance", label: "FINANCE" },
       { path: "/campus", label: "CAMPUS" },
       { path: "/dumzii", label: "DUMZII" },
+      { path: "/content", label: "CONTENT" },
       { path: "/contact", label: "CONTACT" },
     ].map((link) => (
       <button
