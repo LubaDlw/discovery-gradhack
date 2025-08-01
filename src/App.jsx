@@ -6,6 +6,10 @@ import FinancePage from "./pages/FinancePage";
 import CampusPage from "./pages/CampusPage";
 import ChatPage from "./pages/ChatPage";
 import ContactPage from "./pages/ContactPage";
+import "./styles/WellnessPage.css";
+import Day1Task1 from "./Wellness Checks/Day1Task1";
+import Day1Task2 from "./Wellness Checks/Day1Task2";
+import Day1Task3 from "./Wellness Checks/Day1Task3";
 
 function App() {
   return (

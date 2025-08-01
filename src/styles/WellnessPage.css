@@ -1,0 +1,97 @@
+.wellness-Container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  margin-left: 290px;
+  gap: 20px;
+}
+.wellness-Card {
+  background-color: rgb(45, 43, 43);
+  border-radius: 15px;
+  justify-content: center; 
+}
+.wellness-Text {
+  color: #5E4961;
+  background-color: white;
+  font-size: 25px;
+  text-align: center;
+  font-weight: bold;
+}
+.unavailable-Text {
+  color: #FFEBD7;
+  font-size: 15;
+}
+.buttonsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -450px;
+  gap: 30px;
+  height: 200px;
+  border-radius: 15px;
+  background-color:#5E4961;
+  opacity: 100%;
+}
+.checkData {
+  align-items: center;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #062d69;
+  color: #FFEBD7;
+  border-radius: 25px;
+  width: 130px;
+  height: 150px;
+  border: none;
+  margin: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+.checkData:hover {
+  background-color: #031839;
+  transform: scale(1.1);
+}
+
+.day-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 200px;
+  gap: 15px;
+}
+
+.day-selector h2 {
+  color: #5E4961;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.day-selector-btn {
+  background-color: rgb(45, 43, 43); 
+  border: none;
+  border-radius: 15px; 
+  padding: 20px;
+  color: #FFEBD7; 
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.day-selector-btn:hover {
+  background-color: #5E4961; 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.day-selector-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.day-selector-btn.selected {
+  background-color: #103D81;
+  color: white;
+}
