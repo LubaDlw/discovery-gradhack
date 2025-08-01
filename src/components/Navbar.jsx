@@ -41,7 +41,9 @@ function Navbar() {
       { path: "/campus", label: "CAMPUS" },
       { path: "/dumzii", label: "DUMZII" },
       { path: "/content", label: "CONTENT" },
-      { path: "/contact", label: "CONTACT" },
+      { path: "/notifications", label: "🔔"},
+      { path: "/contact", label: "📞" },
+
     ].map((link) => (
       <button
         key={link.path}
