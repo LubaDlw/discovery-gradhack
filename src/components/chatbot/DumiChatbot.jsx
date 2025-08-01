@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ChatHeader from './ChatHeader'; // We will modify ChatHeader to use a new prop or update its internal styling
+import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import { GeminiService } from '../../services/geminiService';
 import { FirebaseService } from '../../services/firebaseService';
 import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGE } from '../../utils/constants';
-import { NAV_LINKS } from '../../utils/navigationConstants'; // Import new navigation data
-import { Bot, Home } from 'lucide-react'; // Import icons for sidebar header
-import '../../styles/Chatbot.css'; // Import the new CSS file
+import { NAV_LINKS } from '../../utils/navigationConstants';
+import { Bot, Home } from 'lucide-react';
+import '../../styles/Chatbot.css';
 
 // Base URL for your backend server
 const BACKEND_URL = 'http://localhost:5000';
@@ -23,7 +23,10 @@ const DumiChatbot = () => {
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
-    const audioPlayerRef = useRef(null); // Ref for the HTML Audio element
+    const audioPlayerRef = useRef(null);
+
+    // NEW STATE: To track the last input method (e.g., 'text' or 'voice')
+    const [lastInputMethod, setLastInputMethod] = useState('text'); // Default to text
 
     // Initialize Firebase and welcome message
     useEffect(() => {
@@ -54,14 +57,11 @@ const DumiChatbot = () => {
             }
         ]);
 
-        // Initialize audio player
         audioPlayerRef.current = new Audio();
-        // Optional: Add event listener to know when bot speaking finishes
         audioPlayerRef.current.onended = () => {
             console.log("Bot finished speaking.");
         };
 
-        // Clean up audio player on component unmount
         return () => {
             if (audioPlayerRef.current) {
                 audioPlayerRef.current.pause();
@@ -69,7 +69,7 @@ const DumiChatbot = () => {
             }
         };
 
-    }, []); // Empty dependency array means this runs once on mount
+    }, []);
 
     // Function to start recording audio
     const startRecording = async () => {
@@ -78,18 +78,17 @@ const DumiChatbot = () => {
             audioPlayerRef.current.pause();
         }
 
-        try {
-            // Request microphone access
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Set input method to voice when recording starts
+        setLastInputMethod('voice');
 
-            // Check for 'audio/webm;codecs=opus' support
-            // This is a common and efficient format that Google Cloud STT supports (WEBM_OPUS encoding)
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
                 ? 'audio/webm;codecs=opus'
-                : 'audio/webm'; // Fallback if opus is not supported
+                : 'audio/webm';
 
             mediaRecorderRef.current = new MediaRecorder(stream, { mimeType });
-            audioChunksRef.current = []; // Clear previous chunks
+            audioChunksRef.current = [];
 
             mediaRecorderRef.current.ondataavailable = (event) => {
                 if (event.data.size > 0) {
@@ -98,10 +97,10 @@ const DumiChatbot = () => {
             };
 
             mediaRecorderRef.current.onstop = async () => {
-                setIsLoading(true); // Indicate loading while transcribing
+                setIsLoading(true);
                 const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
                 await sendAudioForTranscription(audioBlob);
-                audioChunksRef.current = []; // Clear chunks after sending
+                audioChunksRef.current = [];
             };
 
             mediaRecorderRef.current.start();
@@ -117,7 +116,6 @@ const DumiChatbot = () => {
     const stopRecording = () => {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
             mediaRecorderRef.current.stop();
-            // Access to microphone stream might need to be stopped explicitly to release resources
             mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
             setIsRecording(false);
             console.log("Recording stopped.");
@@ -128,15 +126,15 @@ const DumiChatbot = () => {
     const sendAudioForTranscription = async (audioBlob) => {
         try {
             const reader = new FileReader();
-            reader.readAsDataURL(audioBlob); // Convert Blob to Data URL (base64 string)
+            reader.readAsDataURL(audioBlob);
 
             reader.onloadend = async () => {
-                const base64Audio = reader.result.split(',')[1]; // Get the base64 part
+                const base64Audio = reader.result.split(',')[1];
 
                 console.log("Sending audio for transcription to Google Cloud STT directly...");
 
                 let audioEncoding = 'WEBM_OPUS';
-                const sampleRateHertz = 48000; // Common default, adjust if your browser records differently
+                const sampleRateHertz = 48000;
 
                 const response = await fetch(`https://speech.googleapis.com/v1/speech:recognize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
                     method: 'POST',
@@ -147,8 +145,8 @@ const DumiChatbot = () => {
                         config: {
                             encoding: audioEncoding,
                             sampleRateHertz: sampleRateHertz,
-                            languageCode: 'en-US', // Adjust language as needed
-                            model: 'default', // Or 'latest_long', 'command_and_search', etc.
+                            languageCode: 'en-US',
+                            model: 'default',
                         },
                         audio: {
                             content: base64Audio,
@@ -169,7 +167,8 @@ const DumiChatbot = () => {
 
                 if (transcribedText) {
                     console.log("Transcribed:", transcribedText);
-                    await sendMessage(transcribedText);
+                    // Crucial: We already set lastInputMethod to 'voice' in startRecording
+                    await sendMessage(transcribedText, 'voice'); // Pass the input method
                     setInputValue('');
                 } else {
                     console.log("No speech detected.");
@@ -237,7 +236,7 @@ const DumiChatbot = () => {
             }
 
             const data = await response.json();
-            const audioContentBase64 = data.audioContent; // This is the base64 encoded audio
+            const audioContentBase64 = data.audioContent;
 
             if (audioContentBase64) {
                 await playAudio(audioContentBase64);
@@ -246,15 +245,14 @@ const DumiChatbot = () => {
             }
         } catch (error) {
             console.error("Error synthesizing speech:", error);
-            // Don't block the chat, just log the error and don't play audio
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text: `(Voice playback error: ${error.message})`, // Indicate error to user visually
+                text: `(Voice playback error: ${error.message})`,
                 timestamp: new Date()
             }]);
         } finally {
-            setIsLoading(false); // Ensure loading is off after TTS attempt
+            setIsLoading(false);
         }
     };
 
@@ -266,7 +264,7 @@ const DumiChatbot = () => {
                 return reject("Audio player not initialized.");
             }
 
-            const audioSrc = `data:audio/mp3;base64,${base64Audio}`; // Assuming MP3 from Google Cloud TTS
+            const audioSrc = `data:audio/mp3;base64,${base64Audio}`;
             audioPlayerRef.current.src = audioSrc;
 
             audioPlayerRef.current.oncanplaythrough = () => {
@@ -279,15 +277,13 @@ const DumiChatbot = () => {
                 console.error("Audio playback error (general):", e);
                 reject(e);
             };
-            // For immediate resolve if it's already ready
-            if (audioPlayerRef.current.readyState >= 3) { // HAVE_FUTURE_DATA
+            if (audioPlayerRef.current.readyState >= 3) {
                 audioPlayerRef.current.play().catch(e => {
                     console.error("Error playing audio (readyState):", e);
                     reject(e);
                 });
             }
 
-            // Resolve the promise when audio finishes playing
             audioPlayerRef.current.onended = () => {
                 console.log("Audio finished playing.");
                 resolve();
@@ -295,12 +291,14 @@ const DumiChatbot = () => {
         });
     };
 
-
-    const sendMessage = async (message) => {
-        // Prevent sending empty messages
+    // Modify sendMessage to accept an optional inputMethod parameter
+    const sendMessage = async (message, inputMethod = 'text') => { // Default to 'text'
         if (!message.trim() && !isRecording) {
             return;
         }
+
+        // Set the last input method based on how sendMessage was called
+        setLastInputMethod(inputMethod);
 
         // Add user message
         setMessages(prev => [...prev, {
@@ -314,14 +312,11 @@ const DumiChatbot = () => {
         setIsLoading(true);
 
         try {
-            // Update chat history with user message
             const newChatHistory = [...chatHistory, { role: "user", parts: [{ text: message }] }];
             setChatHistory(newChatHistory);
 
-            // Get response from Gemini
             const botResponse = await GeminiService.sendMessage(newChatHistory);
 
-            // Add bot response to display
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 sender: 'bot',
@@ -329,11 +324,15 @@ const DumiChatbot = () => {
                 timestamp: new Date()
             }]);
 
-            // Update chat history with bot response
             setChatHistory([...newChatHistory, { role: "model", parts: [{ text: botResponse }] }]);
 
-            // *** Now calling TTS directly from frontend ***
-            await sendTextForSpeechSynthesis(botResponse);
+            // Conditional TTS call based on lastInputMethod
+            if (lastInputMethod === 'voice') {
+                await sendTextForSpeechSynthesis(botResponse);
+            } else {
+                // If input was text, just display the text and turn off loading
+                setIsLoading(false);
+            }
 
         } catch (error) {
             console.error("Error sending message or synthesizing speech:", error);
@@ -345,8 +344,9 @@ const DumiChatbot = () => {
             }]);
             setIsLoading(false);
         } finally {
-            // Loading state is now managed by sendTextForSpeechSynthesis's finally block
-            // or set to false immediately if TTS fails.
+            // Loading state is now conditionally managed.
+            // If TTS is called, its finally block handles isLoading.
+            // If not, it's handled directly in the else block above.
         }
     };
 
@@ -356,7 +356,7 @@ const DumiChatbot = () => {
             <div className="chatbot-sidebar">
                 <div className="sidebar-header">
                     <div className="sidebar-logo">
-                        <Home /> {/* Or another appropriate icon for your app name */}
+                        <Home />
                     </div>
                     <span className="sidebar-title">Dumzii</span>
                 </div>
@@ -368,7 +368,7 @@ const DumiChatbot = () => {
                         {NAV_LINKS.map((item, index) => (
                             <li key={index} className="sidebar-nav-item">
                                 <button className="sidebar-nav-button" onClick={() => console.log(`Navigating to ${item.link}`)}>
-                                    {item.icon && <item.icon />} {/* Render the Lucide icon component */}
+                                    {item.icon && <item.icon />}
                                     {item.name}
                                 </button>
                             </li>
@@ -376,7 +376,6 @@ const DumiChatbot = () => {
                     </ul>
                 </nav>
 
-                {/* User ID Display moved to sidebar if desired, or keep in main content footer */}
                 {userId && (
                     <div className="user-id-display" style={{ marginTop: 'auto', textAlign: 'center' }}>
                         User ID: {userId}
@@ -386,12 +385,12 @@ const DumiChatbot = () => {
 
             {/* Main Chat Content */}
             <div className="chatbot-main-content">
-                <ChatHeader /> {/* ChatHeader will now apply .chat-header styles */}
+                <ChatHeader />
                 <ChatMessages messages={messages} isLoading={isLoading} />
                 <ChatInput
                     inputValue={inputValue}
                     setInputValue={setInputValue}
-                    onSend={sendMessage}
+                    onSend={sendMessage} // This will be called for text input, default inputMethod is 'text'
                     isLoading={isLoading}
                     onStartRecording={startRecording}
                     onStopRecording={stopRecording}
