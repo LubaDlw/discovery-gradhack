@@ -1,28 +1,12 @@
-// src/pages/ContentPage.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import YouTubeVideoList from '../components/content/YouTubeVideoList';
-import '../../styles/ContentPage.css'; // This CSS file will be for the overall content layout
+import React from "react";
+//import "../styles/CampusPage.css";
 
-const ContentPage = () => {
-    return (
-        <div className="content-page-container">
-            <h1>Explore Content Topics</h1>
-            <p>Dive into various educational topics related to your well-being and future.</p>
-
-            <div className="topic-sections">
-                <YouTubeVideoList topic="Wellness" />
-                <YouTubeVideoList topic="Finance" />
-                <YouTubeVideoList topic="Health" />
-                <YouTubeVideoList topic="Youth Corner" />
-                {/* You can add more topics as needed */}
-            </div>
-
-            <div className="back-to-home-link">
-                <Link to="/">Back to Home (Chatbot)</Link>
-            </div>
-        </div>
-    );
-};
+function ContentPage() {
+  return (
+    <div>
+      <h1>Welcome to the Content Page!</h1>
+    </div>
+  );
+}
 
 export default ContentPage;

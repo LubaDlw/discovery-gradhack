@@ -11,7 +11,6 @@ import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGES, SOUTH_AFRICAN_LANGUAGES } from 
 import { NAV_LINKS } from '../../utils/navigationConstants';
 import { Bot, Home } from 'lucide-react'; // Assuming Bot and Home icons are used
 import '../../styles/Chatbot.css'; // Ensure your custom CSS is imported
-import '../../styles/ContentComponents.css'; // Import content components styles
 
 // Base URL for your backend server (if you have other backend API calls)
 // This is not directly used for Google Cloud STT/TTS calls, which use direct API endpoints.
