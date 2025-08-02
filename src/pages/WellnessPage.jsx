@@ -61,9 +61,10 @@ function WellnessPage() {
 
   return (
     <div>
-       <h2 className="heading">Select a day:</h2>
+      <h1 className="Header">Welcome to the Wellness Page!</h1>
         {/* Day selection */}
       <div className="day-selector">
+        <h2>Select a Day:</h2>
         {renderDayButtons()}
       </div>
       <div className='wellness-Container'>
