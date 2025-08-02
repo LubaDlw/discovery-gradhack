@@ -33,7 +33,7 @@ function HomePage() {
         <div className="white-box reward-sections">
           <h3>Reward Sections</h3>
 
-          <div className="rewards-icons-container" style={{ display: 'flex', gap: '3rem', justifyContent: 'center' }}>
+          <div className="rewards-icons-container" style={{ display: 'flex',marginRight: "190px",  gap: '3rem', justifyContent: 'center' }}>
           {/* Finance */}
           <div style={{ position: 'relative', width: 120, height: 120 }}>
             <DonutProgress progress={financeProgress} size={120} strokeWidth={10} color="#4856B9"/>
@@ -59,7 +59,7 @@ function HomePage() {
        </div>
        <div className="white-box vitality-awards">
           <h3>Vitality Student Awards</h3>
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
+          <div style={{ display: "flex",  justifyContent: "center", marginTop: "1rem" }}>
             <MultiRingProgress
               financeProgress={financeProgress}
               wellnessProgress={wellnessProgress}
