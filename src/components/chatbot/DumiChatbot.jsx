@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+// src/components/chatbot/DumiChatbot.jsx
+import React, { useState, useEffect, useRef, useCallback } from 'react'; // Added useCallback
 import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import { GeminiService } from '../../services/geminiService';
 import { FirebaseService } from '../../services/firebaseService';
-import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGE } from '../../utils/constants';
+import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGE, SOUTH_AFRICAN_LANGUAGES } from '../../utils/constants';
 import { NAV_LINKS } from '../../utils/navigationConstants';
 import { Bot, Home } from 'lucide-react';
 import '../../styles/Chatbot.css';
@@ -19,15 +20,22 @@ const DumiChatbot = () => {
     const [userId, setUserId] = useState(null);
     const [chatHistory, setChatHistory] = useState(INITIAL_CHAT_HISTORY);
 
+    // NEW STATE: Language selection
+    const [selectedLanguageCode, setSelectedLanguageCode] = useState('en-ZA'); // Default to English (South Africa)
+
     // State for voice interaction
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const audioPlayerRef = useRef(null);
-
-    // Keep this state to reflect the *current* user preference/last action,
-    // but pass it explicitly to sendMessage to ensure accurate behavior for that call.
     const [lastInputMethod, setLastInputMethod] = useState('text');
+
+    // Function to generate the dynamic Gemini prompt based on selected language
+    // We wrap this in useCallback to prevent unnecessary re-creations
+    const getGeminiPrompt = useCallback(() => {
+        const basePrompt = INITIAL_CHAT_HISTORY[0].parts[0].text;
+        return `${basePrompt}\n\nAll your responses MUST be in ${SOUTH_AFRICAN_LANGUAGES.find(lang => lang.code === selectedLanguageCode)?.name || 'English'}.`;
+    }, [selectedLanguageCode]); // Re-create only if selectedLanguageCode changes
 
     // Initialize Firebase and welcome message
     useEffect(() => {
@@ -49,11 +57,12 @@ const DumiChatbot = () => {
                 console.error("Firebase initialization failed:", error);
             });
 
+        // Initial chat history, potentially re-initialize when language changes too
         setMessages([
             {
                 id: 1,
                 sender: 'bot',
-                text: WELCOME_MESSAGE,
+                text: WELCOME_MESSAGE, // Static welcome message, consider making this dynamic if full i18n is implemented
                 timestamp: new Date()
             }
         ]);
@@ -70,16 +79,38 @@ const DumiChatbot = () => {
             }
         };
 
-    }, []);
+    }, []); // Empty dependency array means this runs once on mount
+
+    // Effect to reset chat history when language changes, forcing the new language prompt
+    useEffect(() => {
+        // Reset chat history to include the new language directive for Gemini
+        setChatHistory([
+            {
+                role: "user",
+                parts: [{ text: getGeminiPrompt() }]
+            },
+            {
+                role: "model",
+                parts: [{ text: WELCOME_MESSAGE }] // Welcome message currently static
+            }
+        ]);
+        // Also clear messages or update welcome message if it needs translation
+        setMessages([
+            {
+                id: 1,
+                sender: 'bot',
+                text: WELCOME_MESSAGE,
+                timestamp: new Date()
+            }
+        ]);
+    }, [selectedLanguageCode, getGeminiPrompt]); // Re-run when language code changes or prompt generator changes
 
     // Function to start recording audio
     const startRecording = async () => {
         if (audioPlayerRef.current && !audioPlayerRef.current.paused) {
             audioPlayerRef.current.pause();
         }
-
-        // Set input method to voice when recording starts
-        setLastInputMethod('voice'); // This updates the state
+        setLastInputMethod('voice');
 
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -99,7 +130,7 @@ const DumiChatbot = () => {
             mediaRecorderRef.current.onstop = async () => {
                 setIsLoading(true);
                 const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-                await sendAudioForTranscription(audioBlob);
+                await sendAudioForTranscription(audioBlob, selectedLanguageCode); // Pass selectedLanguageCode
                 audioChunksRef.current = [];
             };
 
@@ -123,7 +154,8 @@ const DumiChatbot = () => {
     };
 
     // Function to send recorded audio to Google Cloud for transcription
-    const sendAudioForTranscription = async (audioBlob) => {
+    // Now accepts a languageCode parameter
+    const sendAudioForTranscription = async (audioBlob, languageCode) => {
         try {
             const reader = new FileReader();
             reader.readAsDataURL(audioBlob);
@@ -131,10 +163,10 @@ const DumiChatbot = () => {
             reader.onloadend = async () => {
                 const base64Audio = reader.result.split(',')[1];
 
-                console.log("Sending audio for transcription to Google Cloud STT directly...");
+                console.log(`Sending audio for transcription to Google Cloud STT directly (Lang: ${languageCode})...`);
 
                 let audioEncoding = 'WEBM_OPUS';
-                const sampleRateHertz = 48000;
+                const sampleRateHertz = 48000; // Common sample rate for webm opus
 
                 const response = await fetch(`https://speech.googleapis.com/v1/speech:recognize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
                     method: 'POST',
@@ -145,7 +177,7 @@ const DumiChatbot = () => {
                         config: {
                             encoding: audioEncoding,
                             sampleRateHertz: sampleRateHertz,
-                            languageCode: 'en-US',
+                            languageCode: languageCode, // Use the passed language code
                             model: 'default',
                         },
                         audio: {
@@ -167,8 +199,6 @@ const DumiChatbot = () => {
 
                 if (transcribedText) {
                     console.log("Transcribed:", transcribedText);
-                    // *** IMPORTANT CHANGE HERE ***
-                    // Pass 'voice' explicitly to sendMessage
                     await sendMessage(transcribedText, 'voice');
                     setInputValue('');
                 } else {
@@ -205,9 +235,13 @@ const DumiChatbot = () => {
     };
 
     // Function to send chatbot's text response to Google Cloud for speech synthesis
-    const sendTextForSpeechSynthesis = async (text) => {
+    // Now accepts a languageCode parameter
+    const sendTextForSpeechSynthesis = async (text, languageCode) => {
         try {
-            console.log("Sending text for speech synthesis to Google Cloud TTS directly...");
+            console.log(`Sending text for speech synthesis to Google Cloud TTS directly (Lang: ${languageCode})...`);
+            // Attempt to find a suitable voice for the language. Fallback to en-US-Wavenet-D
+            const voiceName = getVoiceNameForLanguage(languageCode); // Helper function for voice selection
+
             const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
                 method: 'POST',
                 headers: {
@@ -218,9 +252,9 @@ const DumiChatbot = () => {
                         text: text,
                     },
                     voice: {
-                        languageCode: 'en-US',
-                        name: 'en-US-Wavenet-D',
-                        ssmlGender: 'MALE',
+                        languageCode: languageCode, // Use the passed language code
+                        name: voiceName, // Use the selected voice name
+                        ssmlGender: 'MALE', // Or FEMALE, NEUTRAL. Can be varied based on voiceName
                     },
                     audioConfig: {
                         audioEncoding: 'MP3',
@@ -249,11 +283,27 @@ const DumiChatbot = () => {
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text: `(Voice playback error: ${error.message})`,
+                text: `(Voice playback error for ${languageCode}: ${error.message})`,
                 timestamp: new Date()
             }]);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    // Helper function to pick a voice name based on language code
+    // This is a simplified example. In a real app, you'd list available voices
+    // and let the user pick, or have a more robust fallback logic.
+    const getVoiceNameForLanguage = (languageCode) => {
+        switch (languageCode) {
+            case 'af-ZA': return 'af-ZA-Wavenet-B'; // Example voice
+            case 'zu-ZA': return 'zu-ZA-Wavenet-D';
+            case 'xh-ZA': return 'xh-ZA-Wavenet-A';
+            case 'st-ZA': return 'st-ZA-Wavenet-A';
+            case 'ts-ZA': return 'ts-ZA-Wavenet-A';
+            case 'en-ZA': return 'en-ZA-Wavenet-A'; // If en-ZA voices are preferred
+            // Default to a common English voice if specific language voice not found/supported
+            default: return 'en-US-Wavenet-D'; // A good quality male voice
         }
     };
 
@@ -292,17 +342,13 @@ const DumiChatbot = () => {
         });
     };
 
-    // sendMessage now explicitly uses the provided inputMethod for its logic
-    const sendMessage = async (message, inputMethod = 'text') => { // Default to 'text' if not specified
+    const sendMessage = async (message, inputMethod = 'text') => {
         if (!message.trim() && !isRecording) {
             return;
         }
 
-        // We can still update lastInputMethod state, but the conditional logic
-        // will rely on the `inputMethod` argument directly.
         setLastInputMethod(inputMethod);
 
-        // Add user message
         setMessages(prev => [...prev, {
             id: Date.now(),
             sender: 'user',
@@ -314,10 +360,15 @@ const DumiChatbot = () => {
         setIsLoading(true);
 
         try {
-            const newChatHistory = [...chatHistory, { role: "user", parts: [{ text: message }] }];
-            setChatHistory(newChatHistory);
+            // Update the chat history with the current language prompt before sending
+            const currentGeminiPrompt = getGeminiPrompt();
+            const conversationHistoryForGemini = [
+                { role: "user", parts: [{ text: currentGeminiPrompt }] }, // Always send the latest language directive
+                ...chatHistory.slice(1), // Exclude the old initial prompt
+                { role: "user", parts: [{ text: message }] }
+            ];
 
-            const botResponse = await GeminiService.sendMessage(newChatHistory);
+            const botResponse = await GeminiService.sendMessage(conversationHistoryForGemini);
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
@@ -326,11 +377,11 @@ const DumiChatbot = () => {
                 timestamp: new Date()
             }]);
 
-            setChatHistory([...newChatHistory, { role: "model", parts: [{ text: botResponse }] }]);
+            // Ensure our internal chatHistory state also reflects the latest prompt
+            setChatHistory([...conversationHistoryForGemini, { role: "model", parts: [{ text: botResponse }] }]);
 
-            // Conditional TTS call based on the `inputMethod` ARGUMENT
-            if (inputMethod === 'voice') { // <--- Rely on the passed argument
-                await sendTextForSpeechSynthesis(botResponse);
+            if (inputMethod === 'voice') {
+                await sendTextForSpeechSynthesis(botResponse, selectedLanguageCode); // Pass selectedLanguageCode
             } else {
                 setIsLoading(false);
             }
@@ -359,7 +410,7 @@ const DumiChatbot = () => {
                     </div>
                     <span className="sidebar-title">Dumzii</span>
                 </div>
-                <p className="sidebar-tagline">Your AI Personalized study assistant</p>
+                <p className="sidebar-tagline">Your AI study assistant for Vitakity</p>
 
                 <h3 className="sidebar-section-title">Suggested Topics</h3>
                 <nav>
@@ -384,12 +435,15 @@ const DumiChatbot = () => {
 
             {/* Main Chat Content */}
             <div className="chatbot-main-content">
-                <ChatHeader />
+                <ChatHeader
+                    language={selectedLanguageCode}
+                    onLanguageChange={setSelectedLanguageCode}
+                />
                 <ChatMessages messages={messages} isLoading={isLoading} />
                 <ChatInput
                     inputValue={inputValue}
                     setInputValue={setInputValue}
-                    onSend={(message) => sendMessage(message, 'text')} // *** IMPORTANT CHANGE HERE ***
+                    onSend={(message) => sendMessage(message, 'text')}
                     isLoading={isLoading}
                     onStartRecording={startRecording}
                     onStopRecording={stopRecording}

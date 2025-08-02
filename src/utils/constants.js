@@ -1,3 +1,5 @@
+// src/utils/constants.js
+
 export const INITIAL_CHAT_HISTORY = [
   {
     role: "user",
@@ -35,3 +37,18 @@ export const INITIAL_CHAT_HISTORY = [
 ];
 
 export const WELCOME_MESSAGE = "Sawubona! I'm Dumzii, your enthusiastic and calm AI assistant from Sandton, South Africa! I’m here to help you thrive with Discovery Student – from health and learning goals to exciting rewards. I also know a bit about all things Discovery! How can I help you have a brighter day today?";
+
+// NEW CONSTANT: South African Languages for the dropdown
+export const SOUTH_AFRICAN_LANGUAGES = [
+    { code: 'en-ZA', name: 'English (South Africa)' },
+    { code: 'zu-ZA', name: 'isiZulu' },
+    { code: 'xh-ZA', name: 'isiXhosa' },
+    { code: 'af-ZA', name: 'Afrikaans' },
+    { code: 'st-ZA', name: 'Sesotho' }, // Southern Sotho, often covers Sepedi in some contexts
+    { code: 'ts-ZA', name: 'Xitsonga' },
+    // You can add more if Google Cloud expands support or you find suitable workarounds:
+    // { code: 'tn-ZA', name: 'Setswana (Limited/No direct API support often)' },
+    // { code: 've-ZA', name: 'Tshivenda (Limited/No direct API support often)' },
+    // { code: 'nr-ZA', name: 'isiNdebele (Limited/No direct API support often)' },
+    // { code: 'ss-ZA', name: 'siSwati (Limited/No direct API support often)' },
+];
