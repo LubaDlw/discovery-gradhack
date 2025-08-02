@@ -62,7 +62,6 @@ function WellnessPage() {
        <h2 className="heading"> Mental Wellness aspects:</h2>
         {/* Day selection */}
       <div className="day-selector">
-        <h2>Select a Day:</h2>
         {renderDayButtons()}
       </div>
       <div className='wellness-Container'>
