@@ -5,11 +5,11 @@ import YouTubeVideoList from "../components/content/YouTubeVideoList";
 
 function CampusPage() {
   const [categories, setCategories] = useState([
-    { name: "Events Attended", value: 3 },
-    { name: "Group Study Sessions", value: 2 },
-    { name: "Library Visits", value: 4 },
-    { name: "Clubs Participated", value: 1 },
-    { name: "Workshops Completed", value: 2 },
+    { name: "CAMPUS EVENTS", value: 5 },
+    { name: "STUDY SESSIONS", value: 6 },
+    { name: "LIBRARY VISITS", value: 5 },
+    { name: "VARSITY CUPS", value: 7 },
+    { name: "WORKSHOPS", value: 4 },
   ]);
 
   const MAX_VALUE = 10;
@@ -24,7 +24,7 @@ function CampusPage() {
 
   return (
     <div className="campus-page-container">
-      <h2 className="campus-summary-title">Campus Engagement Overview</h2>
+      <h2 className="campus-summary-title">Campus Engagement</h2>
 
       <div className="campus-top-section">
         <div className="campus-white-box campus-category-section">
@@ -36,44 +36,48 @@ function CampusPage() {
       </div>
 
       <div className="campus-blue-section">
-        <h3 className="campus-blue-title">Engagement Bubble Graph</h3>
-        <div
-          className="campus-card-container"
-          style={{ maxWidth: "800px", margin: "0 auto" }}
-        >
-          <BubbleChart data={categories} />
-          <div
-            style={{
-              marginTop: "1rem",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "1rem",
-              justifyContent: "center",
-            }}
-          >
-            {categories.map((cat, i) => (
-              <button
-                key={cat.name}
-                onClick={() => increment(i)}
-                style={{
-                  padding: "0.5rem 1rem",
-                  borderRadius: "8px",
-                  border: "none",
-                  backgroundColor: "#3A2F70",
-                  color: "white",
-                  cursor: "pointer",
-                  fontFamily: "Discovery-Font",
-                }}
-              >
-                Add to {cat.name}
-              </button>
-            ))}
+        <h3 className="campus-blue-title">Engagement Graph</h3>
+
+        {/* Flex container to separate left space and graph on right */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "right" }}>
+          <div style={{ flex: 2}}></div> 
+
+          <div style={{ flex: 1, minWidth: "200px", backgroundColor: "#32436F", padding: "0.1rem" }}>
+            <BubbleChart data={categories} />
           </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: "1rem",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+            justifyContent: "right",
+          }}
+        >
+          {categories.map((cat, i) => (
+            <button
+              key={cat.name}
+              onClick={() => increment(i)}
+              style={{
+                padding: "0.2rem 0.5rem",
+                fontSize: "0.7rem",
+                borderRadius: "6px",
+                border: "none",
+                backgroundColor: "#1A2D55",
+                color: "white",
+                cursor: "pointer",
+                fontFamily: "Discovery-Font",
+              }}
+            >
+              Add to {cat.name}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div>
-        <h1>Welcome to the Campus Page!</h1>
+      <div className="Youtube-list">
         <YouTubeVideoList topic="Student Corner" />
       </div>
     </div>
