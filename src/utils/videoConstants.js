@@ -1,7 +1,7 @@
 // src/utils/videoConstants.js
 
 export const LOCAL_VIDEO_DATA = [
-    // Wellness Videos
+    // Wellness Videos (kept as is)
     { id: 1, youtubeId: 'o0Q269hXm1Q', title: '5 Simple Habits for Better Mental Health', theme: 'Wellness' },
     { id: 2, youtubeId: 'a_t5zR5-g6Q', title: 'Mindfulness Meditation for Students', theme: 'Wellness' },
     { id: 3, youtubeId: 'lYgC4h-P-3E', title: 'Quick Stress Relief Techniques', theme: 'Wellness' },
@@ -16,7 +16,7 @@ export const LOCAL_VIDEO_DATA = [
     { id: 28, youtubeId: 'Ld9h2-8bFqM', title: 'Finding Your Inner Peace', theme: 'Wellness' },
     { id: 29, youtubeId: 'f0m_Gj9K3fA', title: 'Boosting Self-Confidence for Students', theme: 'Wellness' },
 
-    // Finance Videos
+    // Finance Videos (kept as is)
     { id: 6, youtubeId: 's_v7_eR2-e8', title: 'Student Budgeting 101: How to Manage Your Money', theme: 'Finance' },
     { id: 7, youtubeId: '0c_2y1q5yGg', title: 'Understanding Student Loans in South Africa', theme: 'Finance' },
     { id: 8, youtubeId: '2qM624q82bQ', title: 'Investing Basics for Young Adults', theme: 'Finance' },
@@ -31,7 +31,7 @@ export const LOCAL_VIDEO_DATA = [
     { id: 36, youtubeId: 'X_Y9z0a1b2c', title: 'Side Hustles for Students in SA', theme: 'Finance' },
     { id: 37, youtubeId: 'Z_A3b4c5d6e', title: 'Introduction to Shares & Forex', theme: 'Finance' },
 
-    // Health Videos
+    // Health Videos (kept as is)
     { id: 11, youtubeId: 'M-yXz-zW21Y', title: 'Healthy Eating Habits for Busy Students', theme: 'Health' },
     { id: 12, youtubeId: 'P_jYvG01z34', title: 'Quick Home Workouts for Fitness', theme: 'Health' },
     { id: 13, youtubeId: 'k2n2m6T603c', title: 'Boosting Your Immune System Naturally', theme: 'Health' },
@@ -46,19 +46,21 @@ export const LOCAL_VIDEO_DATA = [
     { id: 44, youtubeId: 'A_F4g5h6i7j', title: 'Basics of First Aid for Students', theme: 'Health' },
     { id: 45, youtubeId: 'B_G8h9i0j1k', title: 'Active Lifestyle on a Budget', theme: 'Health' },
 
-    // Youth Corner Videos (South Africa focused)
-    { id: 16, youtubeId: '0X_0R7k_0cQ', title: 'Day in the Life of a Software Engineer in SA', theme: 'Youth Corner' },
-    { id: 17, youtubeId: 'R-D_r1B0q0E', title: 'Choosing Your Career Path: South African Context', theme: 'Youth Corner' },
-    { id: 18, youtubeId: 'w2n_f-2F0Xg', title: 'Entrepreneurship for Youth in South Africa', theme: 'Youth Corner' },
-    { id: 19, youtubeId: 'Z-X_g3F0x0A', title: 'Navigating University Life in SA: Tips & Tricks', theme: 'Youth Corner' },
-    { id: 20, youtubeId: 'Q-Y_h5J0x0A', title: 'South African Youth & Mental Health: A Discussion', theme: 'Youth Corner' },
-    { id: 21, youtubeId: 'h-W_e6I0x0A', title: 'Financial Literacy for SA Students', theme: 'Youth Corner' },
-    { id: 46, youtubeId: 'C_H2i3j4k5l', title: 'SA Student Experiences: What to Expect', theme: 'Youth Corner' },
-    { id: 47, youtubeId: 'D_I6j7k8l9m', title: 'Volunteering Opportunities for SA Youth', theme: 'Youth Corner' },
-    { id: 48, youtubeId: 'E_J0k1l2m3n', title: 'Developing Soft Skills for the SA Job Market', theme: 'Youth Corner' },
-    { id: 49, youtubeId: 'F_K4l5m6n7o', title: 'Higher Education Options Beyond University in SA', theme: 'Youth Corner' },
-    { id: 50, youtubeId: 'G_L8m9n0o1p', title: 'Youth Activism and Social Change in SA', theme: 'Youth Corner' },
-    { id: 51, youtubeId: 'H_M2n3o4p5q', title: 'Understanding Your Rights as a SA Student', theme: 'Youth Corner' },
-    { id: 52, youtubeId: 'I_N6o7p8q9r', title: 'Connecting with Fellow Students in SA', theme: 'Youth Corner' },
-    { id: 53, youtubeId: 'J_O0p1q2r3s', title: 'Exploring Cultural Heritage in SA', theme: 'Youth Corner' },
+    // Student Corner Videos (South Africa focused) - UPDATED SECTION with verified IDs
+    { id: 54, youtubeId: 'DCNN5pDpZOI', title: 'Uni diaries: Lunch dates, Birthday celebrations, Going out, Falling sick etc. SOUTH AFRICAN YOUTUBER', theme: 'Student Corner' },
+    { id: 55, youtubeId: 'z9whMxckzj4', title: 'International Student Living in South Africa~A Day in my life.', theme: 'Student Corner' },
+    { id: 56, youtubeId: 'dERbmMRO9xQ', title: 'Uni diaries: Productive days in my life as a STUDENT || University of Pretoria', theme: 'Student Corner' },
+    { id: 57, youtubeId: 'puCdeLiUL7c', title: 'Top 10 Ways To Study & Pass| Study Tips For University Students| South African Youtuber', theme: 'Student Corner' },
+    { id: 58, youtubeId: 'YBM9tysIxC4', title: '3 BIG TIPS for starting the academic year right | University | South African YouTuber', theme: 'Student Corner' },
+    { id: 59, youtubeId: '7z21BtCcTJE', title: 'How To Pick A University Degree In South Africa? | Wits | Tuks | UCT', theme: 'Student Corner' },
+    { id: 60, youtubeId: 'NMADmF_zv4g', title: 'HOW TO APPLY FOR UNIVERSITY in South Africa | 13 things you need to know before applying', theme: 'Student Corner' },
+    { id: 61, youtubeId: 'C9oIzJlE3q0', title: 'Grocery shopping on a student budget + saving tips !! | University of Pretoria vlog', theme: 'Student Corner' },
+    { id: 62, youtubeId: 'OiJwRYo4Vk8', title: 'Monthly grocery shopping on a student budget + cooking with me | South African YouTuber', theme: 'Student Corner' },
+    { id: 63, youtubeId: 'ozl12EGhdDQ', title: 'Career Guidance for School Learners (SA)', theme: 'Student Corner' },
+    { id: 64, youtubeId: 'gWVEnPIQ8Wk', title: 'Welcome to Grade 9 | Tips for Success & Choosing Your Career Path', theme: 'Student Corner' },
+    { id: 65, youtubeId: 'MkGNn56K1N4', title: 'Career Guidance: University, Subjects & Your Future (2025) - 60% Drop Out! You MUST See!', theme: 'Student Corner' },
+    { id: 66, youtubeId: 'SFhyyBU5uW0', title: 'Focus on mental health at schools, universities in SA', theme: 'Student Corner' },
+    { id: 67, youtubeId: 'VvFKyPkA_M0', title: "African Students' Voices: Mental Health and Student Well-Being", theme: 'Student Corner' },
+    { id: 68, youtubeId: 'wJY6ew5NP1g', title: "GRWM, study tips, test anxiety, what's in my bag etc. SOUTH AFRICAN YOUTUBER", theme: 'Student Corner' },
+    { id: 69, youtubeId: 'WAwVGk5zSXA', title: 'Back to School Budget in South Africa – Can You Survive', theme: 'Student Corner' },
 ];
