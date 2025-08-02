@@ -1,0 +1,22 @@
+[
+  { "name": "Shoprite", "lat": -26.2041, "lng": 28.0473, "amount": 2100, "date": 1688380800000, "category": "Groceries" },
+  { "name": "Pick n Pay", "lat": -26.1998, "lng": 28.0587, "amount": 1800, "date": 1688467200000, "category": "Groceries" },
+  { "name": "Woolworths", "lat": -26.2050, "lng": 28.0450, "amount": 1950, "date": 1688553600000, "category": "Retail" },
+  { "name": "Clicks Pharmacy", "lat": -26.2080, "lng": 28.0500, "amount": 1300, "date": 1688640000000, "category": "Pharmacy" },
+  { "name": "Dis-Chem", "lat": -26.2100, "lng": 28.0525, "amount": 1400, "date": 1688726400000, "category": "Pharmacy" },
+  { "name": "SPAR", "lat": -26.2035, "lng": 28.0400, "amount": 1700, "date": 1688812800000, "category": "Groceries" },
+  { "name": "Boxer Stores", "lat": -26.1980, "lng": 28.0550, "amount": 900, "date": 1688899200000, "category": "Groceries" },
+  { "name": "Wimpy", "lat": -26.2045, "lng": 28.0485, "amount": 1100, "date": 1688985600000, "category": "Fast Food" },
+  { "name": "Dunkin' Donuts SA", "lat": -26.2060, "lng": 28.0490, "amount": 950, "date": 1689072000000, "category": "Fast Food" },
+  { "name": "KFC South Africa", "lat": -26.2020, "lng": 28.0470, "amount": 1600, "date": 1689158400000, "category": "Fast Food" },
+  { "name": "Mr Price", "lat": -26.2015, "lng": 28.0530, "amount": 1400, "date": 1689244800000, "category": "Retail" },
+  { "name": "Edgars", "lat": -26.1990, "lng": 28.0510, "amount": 1250, "date": 1689331200000, "category": "Retail" },
+  { "name": "Game Stores", "lat": -26.2005, "lng": 28.0505, "amount": 2100, "date": 1689417600000, "category": "Retail" },
+  { "name": "Food Lover's Market", "lat": -26.1995, "lng": 28.0590, "amount": 1850, "date": 1689504000000, "category": "Groceries" },
+  { "name": "Ocean Basket", "lat": -26.2040, "lng": 28.0520, "amount": 1200, "date": 1689590400000, "category": "Fast Food" },
+  { "name": "Steers", "lat": -26.2030, "lng": 28.0460, "amount": 1350, "date": 1689676800000, "category": "Fast Food" },
+  { "name": "CNA", "lat": -26.1985, "lng": 28.0540, "amount": 800, "date": 1689763200000, "category": "Retail" },
+  { "name": "Makro", "lat": -26.2055, "lng": 28.0555, "amount": 2200, "date": 1689849600000, "category": "Groceries" },
+  { "name": "Woolworths Pharmacy", "lat": -26.2070, "lng": 28.0495, "amount": 1150, "date": 1689936000000, "category": "Pharmacy" },
+  { "name": "Debonairs Pizza", "lat": -26.2038, "lng": 28.0512, "amount": 1300, "date": 1690022400000, "category": "Fast Food" }
+]
