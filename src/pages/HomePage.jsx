@@ -12,6 +12,7 @@ import HealthyLivingRewards from '../components/HealthyLivingRewards';
 import upNextImg from '../assets/upnext.png'; 
 import infoIcon from '../assets/info-icon.png'; 
 import UniversityLineGraph from "../components/UniversityLineGraph";
+import StackedChallengeCarousel from "../components/StackedChallengeCarousel";
 
 function HomePage() {
   const steps = useSimulatedSteps();
@@ -33,7 +34,7 @@ function HomePage() {
         <div className="white-box reward-sections">
           <h3>Reward Sections</h3>
 
-          <div className="rewards-icons-container" style={{ display: 'flex',marginRight: "190px",  gap: '3rem', justifyContent: 'center' }}>
+          <div className="rewards-icons-container" style={{ display: 'flex', gap: '3rem', justifyContent: 'center' }}>
           {/* Finance */}
           <div style={{ position: 'relative', width: 120, height: 120 }}>
             <DonutProgress progress={financeProgress} size={120} strokeWidth={10} color="#4856B9"/>
@@ -59,7 +60,7 @@ function HomePage() {
        </div>
        <div className="white-box vitality-awards">
           <h3>Vitality Student Awards</h3>
-          <div style={{ display: "flex",  justifyContent: "center", marginTop: "1rem" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
             <MultiRingProgress
               financeProgress={financeProgress}
               wellnessProgress={wellnessProgress}
@@ -94,6 +95,7 @@ function HomePage() {
                   Complete the recommended steps to qualify for this week’s gameboard.
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -140,6 +142,7 @@ function HomePage() {
         </div>
 
       </div>
+      <StackedChallengeCarousel />
     </div>
   );
 }

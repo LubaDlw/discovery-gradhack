@@ -1,0 +1,196 @@
+/* src/styles/ContentComponents.css */
+
+/* Reusable YouTubeVideoList Component Container */
+.youtube-video-list-container {
+    padding: 1.5rem;
+    background-color: #f9fafb; /* Light background */
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem; /* Space between different topic lists */
+}
+
+.youtube-video-list-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4A0082; /* Discovery purple */
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+/* --- Scrollable Videos Wrapper --- */
+.videos-scroll-wrapper {
+    display: flex; /* THIS IS KEY: Ensures video cards arrange horizontally */
+    overflow-x: auto; /* THIS IS CRUCIAL: Enables horizontal scrolling by the user */
+    gap: 1rem; /* Space between video cards */
+    padding-bottom: 1rem; /* Space for scrollbar if it appears */
+    padding-left: 0.5rem; /* Small padding on left/right for better visual */
+    padding-right: 0.5rem; /* Small padding on left/right for better visual */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS devices */
+
+    /* Custom scrollbar styling (optional, but good for aesthetics) */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #4A0082 #f1f1f1; /* Thumb and Track colors for Firefox */
+}
+
+/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.videos-scroll-wrapper::-webkit-scrollbar {
+    height: 8px; /* Height of the horizontal scrollbar */
+}
+
+.videos-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+    border-radius: 10px;
+}
+
+.videos-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #4A0082; /* Color of the scrollbar thumb */
+    border-radius: 10px;
+}
+
+.videos-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #3e006b; /* Darker thumb color on hover */
+}
+
+
+/* --- Individual Video Card Styles --- */
+.video-card {
+    /* THESE PROPERTIES ARE CRITICAL for side-by-side display with fixed size */
+    flex: 0 0 280px; /* flex-grow: 0 (don't grow), flex-shrink: 0 (don't shrink), flex-basis: 280px (initial size) */
+    min-width: 280px; /* Ensures a minimum width even if flex-basis is ignored by some browsers */
+    
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex; /* Use flexbox for internal card layout (thumbnail + title) */
+    flex-direction: column; /* Stack thumbnail and title vertically */
+    text-align: left;
+    height: auto;
+    min-height: 250px; /* Minimum height for consistency across cards */
+}
+
+.video-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.video-thumbnail-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (height / width * 100%) */
+    overflow: hidden;
+}
+
+.video-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the area without distortion */
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-card:hover .play-overlay {
+    opacity: 1; /* Show play overlay on hover */
+}
+
+.video-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    flex-grow: 1;
+    display: -webkit-box; /* For multi-line text truncation */
+    -webkit-line-clamp: 2; /* Limit title to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Utility/State Styles --- */
+.video-list-loading,
+.video-list-error,
+.video-list-empty {
+    padding: 1.5rem;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.video-list-error {
+    color: #ef4444; /* Red for errors */
+}
+
+/* --- VideoPlayerPage Styling (if included in this file) --- */
+.video-player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    background-color: #4A0082;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    margin-bottom: 1.5rem;
+    align-self: flex-start;
+}
+
+.back-button:hover {
+    background-color: #3e006b;
+}
+
+.video-player-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.video-player-iframe-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background-color: #000;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.youtube-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}

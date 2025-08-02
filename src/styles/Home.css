@@ -13,10 +13,8 @@
   
   .summary-title {
     margin-bottom: 20px;
-    margin-top: 15px;
     font-size: 1.5rem;
     letter-spacing: 1px;
-    margin-left: 15px;
     color: #565e9a;
   }
   
@@ -33,10 +31,9 @@
   .white-box {
     background-color: white;
     padding: 20px;
-    margin-left: -155px;
     box-shadow: 0 4px 8px rgba(0, 0, 0.15, 0.15);
     border-radius: 20px;
-    flex: 0.5;
+    flex: 1;
   }
   
   .reward-sections {
@@ -44,8 +41,7 @@
   }
   
   .vitality-awards {
-    flex: 0.2;
-    margin-right: -380px;
+    flex: 0.8;
   }
   
   .purple-section {
@@ -54,6 +50,7 @@
     border-radius: 20px;
     color: white;
     margin-top: 40px;
+    margin-bottom: -60px;
     min-height: 800px;
     padding-left: 60px;
     padding-right: 60px;

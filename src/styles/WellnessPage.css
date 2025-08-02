@@ -7,27 +7,36 @@
 }
 
 .wellness-Text {
-  color: #565e9a;
+  color: #5E4961;
   background-color: white;
   font-size: 25px;
   text-align: center;
   font-weight: bold;
-  transform: translateY(-560px);
+  transform: translateY(-460px);
 }
 .unavailable-Text {
-  color: #565e9a;
+  color: #5E4961;
   font-size: 15;
-  transform: translateY(-480px);
-  text-align: center;
+  transform: translateY(-440px);
 }
 .buttonsWrapper {
   display: flex;
   flex-wrap: wrap;
-  margin-top: -500px;
+  margin-top: -430px;
   gap: 30px;
   height: 200px;
   border-radius: 15px;
   background-color:#64497e;
+  opacity: 100%;
+}
+.finButtonWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -430px;
+  gap: 30px;
+  height: 200px;
+  border-radius: 15px;
+  background-color:#5E4961;
   opacity: 100%;
 }
 .checkData {
@@ -36,7 +45,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #062d69;
+  background-color: #5E4961;
   color: #FFEBD7;
   border-radius: 25px;
   width: 130px;
@@ -48,23 +57,14 @@
   font-size: 15px;
 }
 .checkData:hover {
-  background-color: #031839;
+  background-color: #4e3565;
   transform: scale(1.0);
-}
-.heading {
-    color: #565e9a;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-    margin: 50px;
-    margin-left: 100px;
 }
 
 .day-selector {
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  margin: 50px;
-  margin-left: 80px;
+  padding: 20px;
   width: 200px;
   gap: 15px;
 }
@@ -76,7 +76,7 @@
 }
 
 .day-selector-btn {
-  background-color: #64497e; 
+  background-color: rgb(45, 43, 43); 
   border: none;
   border-radius: 15px; 
   padding: 20px;
