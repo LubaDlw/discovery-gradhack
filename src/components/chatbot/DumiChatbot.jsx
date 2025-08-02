@@ -359,7 +359,7 @@ const DumiChatbot = () => {
                     </div>
                     <span className="sidebar-title">Dumzii</span>
                 </div>
-                <p className="sidebar-tagline">Your AI Personalized study assistant</p>
+                <p className="sidebar-tagline">Your AI study assistant for Vitakity</p>
 
                 <h3 className="sidebar-section-title">Suggested Topics</h3>
                 <nav>

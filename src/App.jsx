@@ -5,7 +5,6 @@ import WellnessPage from "./pages/WellnessPage";
 import FinancePage from "./pages/FinancePage";
 import CampusPage from "./pages/CampusPage";
 import ChatPage from "./pages/ChatPage";
-import Notifications from "./pages/Notifications";
 import ContactPage from "./pages/ContactPage";
 import "./styles/WellnessPage.css";
 import Day1Task1 from "./Wellness Checks/Day1Task1";
@@ -22,7 +21,6 @@ function App() {
         <Route path="/finance" element={<FinancePage />} />
         <Route path="/campus" element={<CampusPage />} />
         <Route path="/dumzii" element={<ChatPage />} />
-        <Route path="/notifications" element = {<Notifications/>}/>
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
