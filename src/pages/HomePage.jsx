@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import "../styles/Home.css";
 import stepsIcon from '../assets/run grey.png';
 import financeIcon from '../assets/finance.png';  
@@ -7,10 +8,15 @@ import wellnessIcon from '../assets/mindfulness.png';
 import DonutProgress from '../components/DonutProgress';
 import MultiRingProgress from "../components/MultiRingProgress";
 import useSimulatedSteps from "../hooks/useSimulatedSteps";
-
+import HealthyLivingRewards from '../components/HealthyLivingRewards';
+import upNextImg from '../assets/upnext.png'; 
+import infoIcon from '../assets/info-icon.png'; 
+import UniversityLineGraph from "../components/UniversityLineGraph";
 
 function HomePage() {
   const steps = useSimulatedSteps();
+  const [showInfo, setShowInfo] = useState(false);
+  const [showLeaderboardInfo, setShowLeaderboardInfo] = useState(false);
 
   // Calculate wellness progress % out of 13000 steps
   const wellnessProgress = Math.min((steps / 13000) * 100, 100);
@@ -68,7 +74,9 @@ function HomePage() {
         <div className="inner-boxes">
           <div className="inner-box left-box">
             <h4>HealthyLiving rewards</h4>
+            <HealthyLivingRewards />
           </div>
+          
           <div className="inner-box right-box">
             <h4>Challenges</h4>
 
@@ -87,9 +95,50 @@ function HomePage() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+
+        <div className="block-row">
+          {/* Up Next Week */}
+          <div className="card-container" style={{ marginLeft: "40px" }}>
+            <p className="card-title">Up next week:</p>
+            <div className="card-image-container">
+              <img src={upNextImg} alt="Up next" className="card-image" />
+            </div>
+            <img
+              src={infoIcon} 
+              alt="Info"
+              className="info-icon-container"
+              onClick={() => setShowInfo(!showInfo)}
+            />
+
+            {showInfo && (
+              <div className="info-popup right-aligned">
+                <p>Next week’s challenge is about academic participation. Stay engaged!</p>
+              </div>
+            )}
+          </div>
+
+          {/* Leaderboard */}
+          <div className="card-container" style={{ maxWidth: "670px", flex: 1 }}>
+            <div className="card-header">
+              <p className="card-title">Leaderboard</p>
+              <img
+                src={infoIcon}
+                alt="Info"
+                className="info-icon"
+                onClick={() => setShowLeaderboardInfo(!showLeaderboardInfo)}
+              />
+            </div>
+            <UniversityLineGraph />
+            {showLeaderboardInfo && (
+              <div className="info-popup right-aligned">
+                <p>Leaderboard shows top performers in wellness activities this week.</p>
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
     </div>
   );
