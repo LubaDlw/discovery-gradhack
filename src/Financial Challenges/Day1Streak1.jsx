@@ -2,14 +2,14 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { CheckCircle, Trophy, Star } from 'lucide-react';
 
-function Day2Task1() {
-  const [videoCompleted, setVideoCompleted] = useState(false);
+function Day1Streak1() {
+   const [videoCompleted, setVideoCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
   const playerRef = useRef(null);
   const [player, setPlayer] = useState(null);
 
   // YouTube video ID for a walking benefits video
-  const videoId = "fr2VJtCdwAU"; // "The Simple Power of Walking" - change this to any walking video you prefer
+  const videoId = "uHk8c-uHkMw";
 
   useEffect(() => {
     // Load YouTube IFrame API
@@ -66,10 +66,10 @@ function Day2Task1() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-xl p-8">
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-            🚶‍♀️How walking can contribute to academic achievement 🚶‍♂️
+            💵 How to Save Money Effectively 💵
           </h1>
           <p className="text-center text-gray-600 mb-8">
-            Watch this video to learn about the amazing benefits of each step you take!
+            Watch this video to learn about the impact adopting healthy savings habits
           </p>
 
           {/* Video Container */}
@@ -94,7 +94,7 @@ function Day2Task1() {
             <div className={`text-center transition-all duration-1000 ${
               showReward ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
             }`}>
-              <div className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg p-8 shadow-lg">
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg p-8 shadow-lg">
                 <div className="flex justify-center mb-4">
                   <Trophy className="w-16 h-16 text-white animate-bounce" />
                 </div>
@@ -104,7 +104,7 @@ function Day2Task1() {
                 </h2>
                 
                 <p className="text-white text-lg mb-4">
-                  You've completed the walking benefits video!
+                  You've completed the healthy savings video!
                 </p>
                 
                 <div className="flex justify-center space-x-2 mb-6">
@@ -120,10 +120,10 @@ function Day2Task1() {
                 <div className="bg-white/20 rounded-lg p-4 mb-4">
                   <CheckCircle className="w-8 h-8 text-white mx-auto mb-2" />
                   <p className="text-white font-semibold">
-                    Achievement Unlocked: Walking Knowledge Master!
+                    Achievement Unlocked: Savings Knowledge Master!
                   </p>
                   <p className="text-white/90 text-sm mt-1">
-                    You now know the incredible benefits of walking. Time to put those steps into action! 👣
+                    You now know the incredible ways to save money effectively.Time to put those steps into action! 👣
                   </p>
                 </div>
                 
@@ -137,7 +137,7 @@ function Day2Task1() {
             </div>
           )}
 
-          {/* Fun facts about walking */}
+          {/* Fun facts about walking
           <div className="mt-8 grid md:grid-cols-2 gap-6">
             <div className="bg-blue-50 p-6 rounded-lg">
               <h3 className="font-bold text-blue-800 mb-2">💪 Health Benefits</h3>
@@ -151,11 +151,11 @@ function Day2Task1() {
                 Regular walking can reduce stress, improve mood, and enhance creativity and cognitive function.
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
   );
 }
 
-export default Day2Task1;
+export default Day1Streak1;
