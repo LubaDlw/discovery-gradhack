@@ -11,23 +11,21 @@ function WellnessPage() {
 
   // Config of what to show under each days challenge
    const wellnessChallenges= {
-     "Day 1 : Mindful Monday ": [
-      { name: "Task 1 : Calmness Reset", route: "/Day1Task1"},
-      { name: "Task 2: Expressing Gratitude", route: "/Day1Task2"},
-      { name: "Task 3: Time management", route: "/Day1Task3"},
+     "Movement Monday": [
+      {name: "Walking Benefits", route: "/Day2Task1"},
+      {name: "Yoga/Pilates ", route: "/Day2Task2"} ,
+      {name: "Aerobics", route: "/Day2Task3"},
     ],
-    
-     "Day 2 : Movement Tuesday": [
-      {name: "Task 1: Steps Counter", route: "/Day2Task1"},
-      {name: "Task 2: Jumping Jacks", route: "/Day2Task2"} ,
-      {name: "Task 3: Campus Location Checks", route: "/Day2Task3"},
+    "H20 Tuesday" : [
+      {name: "Water Intake Challenge", route: "/Day3Task1"},
+      {name: "Healthy Liquid Intake", route: "/Day3Task2"},
+      {name: "Nutrition Check", route: "/Day3Task3"},
     ],
-    
-    "Day 3 : H20 Wednesday" : [
-      {name: "Task 1: Water Intake Challenge", route: "/Day3Task1"},
-      {name: "Task 2: Healthy Liquid Intake", route: "/Day3Task2"},
-      {name: "Task 3: Nutrition Check", route: "/Day3Task3"},
-    ],
+     "Mindful Wednesday ": [
+      { name: "Calmness Reset", route: "/Day1Task1"},
+      { name: "Expressing Gratitude", route: "/Day1Task2"},
+      { name: "Time management", route: "/Day1Task3"},
+    ]
   };
 
    // Day selection buttons
@@ -74,7 +72,7 @@ function WellnessPage() {
           {renderTaskButtons()}
         </div>
       ) : (
-        <p className='unavailable-Text'>No day selected yet .</p>
+        <p className='unavailable-Text'></p>
       )}
       </div>
       </div>
