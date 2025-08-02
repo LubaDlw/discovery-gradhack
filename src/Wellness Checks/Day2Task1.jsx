@@ -9,7 +9,7 @@ function Day2Task1() {
   const [player, setPlayer] = useState(null);
 
   // YouTube video ID for a walking benefits video
-  const videoId = "aUaInS6HIGo"; // "The Simple Power of Walking" - change this to any walking video you prefer
+  const videoId = "fr2VJtCdwAU"; // "The Simple Power of Walking" - change this to any walking video you prefer
 
   useEffect(() => {
     // Load YouTube IFrame API
@@ -66,7 +66,7 @@ function Day2Task1() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-xl p-8">
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-            🚶‍♀️ Discover the Benefits of Walking 🚶‍♂️
+            🚶‍♀️How walking can contribute to academic achievement 🚶‍♂️
           </h1>
           <p className="text-center text-gray-600 mb-8">
             Watch this video to learn about the amazing benefits of each step you take!
@@ -94,7 +94,7 @@ function Day2Task1() {
             <div className={`text-center transition-all duration-1000 ${
               showReward ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
             }`}>
-              <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg p-8 shadow-lg">
+              <div className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg p-8 shadow-lg">
                 <div className="flex justify-center mb-4">
                   <Trophy className="w-16 h-16 text-white animate-bounce" />
                 </div>
