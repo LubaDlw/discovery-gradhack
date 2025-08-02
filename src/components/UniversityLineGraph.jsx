@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import mockEventData from "../data/mockEventData"; // simulated API data
+import mockEventData from "../data/mockEventData"; 
 
 const UniversityLineGraph = () => {
   const svgRef = useRef();
@@ -10,13 +10,15 @@ const UniversityLineGraph = () => {
     { name: "Wits", color: "#45314B", thickness: 3 },
     { name: "UP",   color: "#B5AEB9", thickness: 3 },
     { name: "UCT",  color: "#444B7F", thickness: 3 },
+    { name: "SU", color: "#705378", thickness: 3 },
+    { name: "NWU",   color: "#06105C", thickness: 3 },
+    { name: "UJ",  color: "#D8D8D8", thickness: 3 },
   ];
 
   useEffect(() => {
-    // Simulate API call delay
     setTimeout(() => {
       setEventData(mockEventData);
-    }, 1000); // 1 second delay
+    }, 1000); 
   }, []);
 
   useEffect(() => {
