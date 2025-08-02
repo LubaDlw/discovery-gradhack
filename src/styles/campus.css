@@ -48,15 +48,17 @@
   }
   
   .campus-blue-section {
-    background-color: #3A2F70; 
+    background-color: #32436F; 
     padding: 30px 20px;
     border-radius: 20px;
     color: white;
     margin-top: 40px;
     margin-bottom: -60px;
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 30px;
+    padding-right: 30px;
     min-height: 500px;
+    margin-left: 60px;
+    margin-right: 60px;
   }
   
   .campus-blue-title {
@@ -110,3 +112,6 @@
     z-index: 10;
   }
   
+  .Youtube-list {
+    margin-top: 150px;
+  }
