@@ -22,8 +22,8 @@ function WellnessPage() {
       {name: "Nutrition Check", route: "/Day3Task3"},
     ],
      "Mindful Wednesday ": [
-      { name: "Calmness Reset", route: "/Day1Task1"},
-      { name: "Expressing Gratitude", route: "/Day1Task2"},
+      { name: "Navigating Academic Pressure", route: "/Day1Task1"},
+      { name: "Dealing with Impostor Syndrome", route: "/Day1Task2"},
       { name: "Time management", route: "/Day1Task3"},
     ]
   };
