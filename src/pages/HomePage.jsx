@@ -12,6 +12,7 @@ import HealthyLivingRewards from '../components/HealthyLivingRewards';
 import upNextImg from '../assets/upnext.png'; 
 import infoIcon from '../assets/info-icon.png'; 
 import UniversityLineGraph from "../components/UniversityLineGraph";
+import StackedChallengeCarousel from "../components/StackedChallengeCarousel";
 
 function HomePage() {
   const steps = useSimulatedSteps();
@@ -94,6 +95,7 @@ function HomePage() {
                   Complete the recommended steps to qualify for this week’s gameboard.
                 </div>
               </div>
+              
             </div>
           </div>
         </div>
@@ -140,6 +142,7 @@ function HomePage() {
         </div>
 
       </div>
+      <StackedChallengeCarousel />
     </div>
   );
 }
