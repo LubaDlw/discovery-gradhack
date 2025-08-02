@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Droplets, Trophy, Target, RefreshCw, Sparkles } from 'lucide-react';
+import { Droplets, Trophy, Target, RefreshCw, Sparkles, X, Lightbulb } from 'lucide-react';
 
 function Day3Task1() {
   const [waterIntake, setWaterIntake] = useState(0);
@@ -7,6 +7,51 @@ function Day3Task1() {
   const [showReward, setShowReward] = useState(false);
   const [totalGlasses, setTotalGlasses] = useState(Array(8).fill(false));
   const [celebrationVisible, setCelebrationVisible] = useState(false);
+  const [showRecommendationPopup, setShowRecommendationPopup] = useState(false);
+  const [recommendation, setRecommendation] = useState('');
+  const [loadingRecommendation, setLoadingRecommendation] = useState(false);
+
+
+   // Dumi: Pulled Ivy's User Data strucure as is  to get recommendation from backend
+  const getWaterRecommendation = async (waterIntakeLevel) => {
+    setLoadingRecommendation(true);
+    
+    try {
+      //D:  Convert glasses to liters (assuming each glass is ~0.25L)
+      const waterInLiters = waterIntakeLevel * 0.25;
+      
+      const userData = {
+        fast_food_pct: 0.48,
+        logins_per_week: 9,
+        mood_score: 7,
+        daily_steps: 6705,
+        water_drank: waterInLiters,
+        chatbot_topic: "hydration"
+      };
+
+      const response = await fetch('http://localhost:8000/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const result = await response.json();
+      
+      if (result.error) { //D: in case the recommendation fromm the firebase does'not show or has error,s show a hyrdation tip
+        setRecommendation('Stay hydrated! Aim for 8 glasses of water daily for optimal health.');
+      } else {
+        setRecommendation(result.recommendation);
+      }
+        
+    } catch (err) {
+      setRecommendation('Great job tracking your water intake! Keep staying hydrated for better health.');
+    } finally {
+      setLoadingRecommendation(false);
+    }
+  };
+
 
   // Check if goal is reached
   useEffect(() => {
@@ -24,18 +69,25 @@ function Day3Task1() {
     if (!newGlasses[index]) {
       // Fill the glass
       newGlasses[index] = true;
-      setWaterIntake(prev => prev + 1);
+      const newWaterIntake = waterIntake + 1;
+      setWaterIntake(newWaterIntake);
+      setTotalGlasses(newGlasses);
+
+      //D: show a recommendation tip based on a new water intake logged in:
+      getWaterRecommendation(newWaterIntake);
+      setShowRecommendationPopup(true);
     } else {
       // Empty the glass and all after it
+      let newWaterIntake = waterIntake;
       for (let i = index; i < newGlasses.length; i++) {
         if (newGlasses[i]) {
           newGlasses[i] = false;
-          setWaterIntake(prev => prev - 1);
+          setWaterIntake(newWaterIntake - 1);
         }
       }
+      setWaterIntake(newWaterIntake);
+      setTotalGlasses(newGlasses);
     }
-    
-    setTotalGlasses(newGlasses);
   };
 
   const resetTracker = () => {
@@ -49,7 +101,15 @@ function Day3Task1() {
     if (waterIntake < dailyGoal) {
       const nextEmptyIndex = totalGlasses.findIndex(glass => !glass);
       if (nextEmptyIndex !== -1) {
-        handleGlassClick(nextEmptyIndex);
+       const newWaterIntake = waterIntake + 1;
+        setWaterIntake(newWaterIntake);
+        const newGlasses = [...totalGlasses];
+        newGlasses[nextEmptyIndex] = true;
+        setTotalGlasses(newGlasses);
+
+        //D:after adding a new water intake log, show pop up:
+         getWaterRecommendation(newWaterIntake);
+        setShowRecommendationPopup(true);
       }
     }
   };
@@ -59,6 +119,82 @@ function Day3Task1() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 p-6">
       <div className="max-w-4xl mx-auto">
+
+            {/* Recommendation Popup */}
+        {showRecommendationPopup && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-md w-full shadow-2xl transform animate-fade-in">
+              <div className="p-6">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <Lightbulb className="w-6 h-6 text-blue-500 mr-2" />
+                    <h3 className="text-lg font-bold text-gray-800">Wellness Tip</h3>
+                  </div>
+                  <button
+                    onClick={() => setShowRecommendationPopup(false)}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Recommendation Content */}
+                <div className="mb-6">
+                  {loadingRecommendation ? (
+                    <div className="flex items-center justify-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                      <span className="ml-3 text-gray-600">Getting your tip...</span>
+                    </div>
+                  ) : (
+                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-4">
+                      <div className="flex items-start">
+                        <div className="text-blue-500 mr-3 text-lg">💧</div>
+                        <div>
+                          <h4 className="font-medium text-blue-800 mb-2">Hydration Insight:</h4>
+                          <p className="text-gray-700 leading-relaxed text-sm">{recommendation}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Water Status */}
+                <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Current Intake:</span>
+                    <span className="font-bold text-blue-600">{waterIntake}/{dailyGoal} glasses</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Approx. Volume:</span>
+                    <span className="font-bold text-blue-600">{(waterIntake * 0.25).toFixed(1)}L</span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowRecommendationPopup(false)}
+                    className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                  >
+                    Got it!
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowRecommendationPopup(false);
+                      addCustomGlass();
+                    }}
+                    disabled={waterIntake >= dailyGoal}
+                    className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors disabled:opacity-50"
+                  >
+                    Add More
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         
         {/* Celebration Overlay */}
         {celebrationVisible && (
@@ -183,7 +319,7 @@ function Day3Task1() {
               <p className="text-lg mb-3">You've reached your daily water goal!</p>
               <div className="bg-white/20 rounded-lg p-3">
                 <p className="font-semibold">Benefits unlocked:</p>
-                <p className="text-sm">✨ Better skin health ✨ Improved energy ✨ Enhanced brain function</p>
+                <p className="text-sm">✨ Better skin health ✨ Improved energy ✨ Enhanced brain functionality</p>
               </div>
             </div>
           )}

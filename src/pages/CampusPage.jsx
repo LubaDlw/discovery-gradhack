@@ -5,11 +5,11 @@ import YouTubeVideoList from "../components/content/YouTubeVideoList";
 
 function CampusPage() {
   const [categories, setCategories] = useState([
-    { name: "Events Attended", value: 3 },
-    { name: "Group Study Sessions", value: 2 },
-    { name: "Library Visits", value: 4 },
-    { name: "Clubs Participated", value: 1 },
-    { name: "Workshops Completed", value: 2 },
+    { name: "CAMPUS EVENTS", value: 2 },
+    { name: "STUDY SESSIONS", value: 3 },
+    { name: "LIBRARY VISITS", value: 1 },
+    { name: "VARSITY CUPS", value: 1 },
+    { name: "WORKSHOPS", value: 1 },
   ]);
 
   const MAX_VALUE = 10;
@@ -24,7 +24,7 @@ function CampusPage() {
 
   return (
     <div className="campus-page-container">
-      <h2 className="campus-summary-title">Campus Engagement Overview</h2>
+      <h2 className="campus-summary-title">Campus Engagement</h2>
 
       <div className="campus-top-section">
         <div className="campus-white-box campus-category-section">
@@ -36,44 +36,49 @@ function CampusPage() {
       </div>
 
       <div className="campus-blue-section">
-        <h3 className="campus-blue-title">Engagement Bubble Graph</h3>
-        <div
-          className="campus-card-container"
-          style={{ maxWidth: "800px", margin: "0 auto" }}
-        >
-          <BubbleChart data={categories} />
-          <div
+        <h3 className="campus-blue-title">Engagement Graph</h3>
+
+        <div style={{ display: "flex", justifyContent: "right" }}>
+        <div style={{ minWidth: "300px" }}>
+            <div style={{ backgroundColor: "#32436F", padding: "0.1rem" }}>
+            <BubbleChart data={categories} />
+            </div>
+
+            <div
             style={{
-              marginTop: "1rem",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "1rem",
-              justifyContent: "center",
+                marginTop: "0.3rem",
+                display: "grid",
+                gridTemplateColumns: "repeat(3, auto)",
+                gap: "0.5rem",
+                justifyContent: "end",
             }}
-          >
+            >
             {categories.map((cat, i) => (
-              <button
+                <button
                 key={cat.name}
                 onClick={() => increment(i)}
                 style={{
-                  padding: "0.5rem 1rem",
-                  borderRadius: "8px",
-                  border: "none",
-                  backgroundColor: "#3A2F70",
-                  color: "white",
-                  cursor: "pointer",
-                  fontFamily: "Discovery-Font",
+                    padding: "0.2rem 0.5rem",
+                    fontSize: "0.7rem",
+                    borderRadius: "6px",
+                    border: "none",
+                    backgroundColor: "#1A2D55",
+                    color: "white",
+                    cursor: "pointer",
+                    fontFamily: "Discovery-Font",
                 }}
-              >
+                >
                 Add to {cat.name}
-              </button>
+                </button>
             ))}
-          </div>
+            </div>
         </div>
+        </div>
+
+    
       </div>
 
-      <div>
-        <h1>Welcome to the Campus Page!</h1>
+      <div className="Youtube-list">
         <YouTubeVideoList topic="Student Corner" />
       </div>
     </div>
