@@ -40,6 +40,7 @@ function Navbar() {
       { path: "/finance", label: "FINANCE" },
       { path: "/campus", label: "CAMPUS" },
       { path: "/dumzii", label: "DUMZII" },
+      { path: "/content", label: "CONTENT" },
       { path: "/notifications", label: "🔔"},
       { path: "/contact", label: "📞" },
 
