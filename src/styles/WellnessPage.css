@@ -17,14 +17,22 @@
 .unavailable-Text {
   color: #5E4961;
   font-size: 15;
-  transform: translateY(-440px);
+  transform: translateY(-430px);
+  text-align: left;
+}
+.Text {
+  color: #565e9a;
+  font-size: 15;
+  transform: translateY(-390px);
+  text-align: left;
 }
 .buttonsWrapper {
   display: flex;
   flex-wrap: wrap;
-  margin-top: -430px;
+  margin-top: -390px;
   gap: 30px;
   height: 200px;
+  width: 800px;
   border-radius: 15px;
   background-color:#64497e;
   opacity: 100%;
