@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css"; 
 import logo from '../assets/discovery-logo.png';
+import { notifContext } from '../Context/NotificationsProvider';
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const {messagesUpdated, messagesValue, notifsNumber} = useContext(notifContext);
+
+
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -41,7 +45,8 @@ function Navbar() {
       { path: "/campus", label: "CAMPUS" },
       { path: "/dumzii", label: "DUMZII" },
       { path: "/content", label: "CONTENT" },
-      { path: "/contact", label: "CONTACT" },
+      { path: "/contact", label: "📞" },
+
     ].map((link) => (
       <button
         key={link.path}
@@ -51,6 +56,17 @@ function Navbar() {
         {link.label}
       </button>
     ))}
+
+    {/*Dumi : Notifications btn with badge below. Moved the logic for it here separet so i can show the badge for it*/}
+    <button
+     className= {`nav-button notification-button ${isActive("/notifications") ? "active" : ""}`}
+     onClick={() => handleNavigate("/notifications")}
+     >
+      <span className="notification-icon">🔔</span>
+      {messagesValue > 0 && (
+        <span className="notification-badge">{messagesValue}</span>
+      )}
+     </button>
   </nav>
 </header>
 
