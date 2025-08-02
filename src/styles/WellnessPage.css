@@ -23,7 +23,17 @@
 .buttonsWrapper {
   display: flex;
   flex-wrap: wrap;
-  margin-top: -500px;
+  margin-top: -430px;
+  gap: 30px;
+  height: 200px;
+  border-radius: 15px;
+  background-color:#64497e;
+  opacity: 100%;
+}
+.finButtonWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -430px;
   gap: 30px;
   height: 200px;
   border-radius: 15px;
@@ -36,7 +46,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #062d69;
+  background-color: #5E4961;
   color: #FFEBD7;
   border-radius: 25px;
   width: 130px;
@@ -48,7 +58,7 @@
   font-size: 15px;
 }
 .checkData:hover {
-  background-color: #031839;
+  background-color: #4e3565;
   transform: scale(1.0);
 }
 .heading {
