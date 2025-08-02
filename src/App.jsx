@@ -17,9 +17,9 @@ import VideoPlayerPage from "./pages/VideoPlayerPage";
 // Import your CSS files
 import "./styles/WellnessPage.css";
 import Day2Task1 from "./Wellness Checks/Day2Task1"; // steps counter challenge
-import Day3Task1 from "./Wellness Checks/Day3Task1";  // water in take route
-import Day1Streak1 from "./Financial Challenges/Day1Streak1";
-import Day1Streak2 from "./Financial Challenges/Day1Streak2";
+import Day3Task1 from "./Wellness Checks/Day3Task1";  // water in-take route
+import Day1Streak1 from "./Financial Challenges/Day1Streak1"; // savings video
+import Day1Streak2 from "./Financial Challenges/Day1Streak2";// budget tracking tracking challenge
 import "./styles/ContentComponents.css"; // <-- IMPORTANT: Ensure this is uncommented/added
 function App() {
   return (
