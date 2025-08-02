@@ -12,12 +12,11 @@ function FinancePage() {
   // Config of what to show under each days challenge
    const financeChallenges= {
      "Navigating Over-spending": [
-      {name: "Navigating How to Save effectively", route: "/Day2Task1"},
-      {name: "Navigating Spending Habits", route: "/Day2Task2"} ,
+      {name: "Navigating How to Save effectively", route: "/Day1Streak1"},
+      {name: "Budget Tracking", route: "/Day1Streak2"} ,
       {name: "Spending Pressure", route: "/Day2Task3"},
     ],
     "Student on a budget" : [
-      {name: "Budget Tracking", route: "/Day3Task1"},
       {name: "Envelope Method", route: "/Day3Task2"},
       {name: "Zero-Based Budgeting", route: "/Day3Task3"},
     ],
