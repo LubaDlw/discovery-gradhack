@@ -62,18 +62,17 @@ function WellnessPage() {
        <h2 className="heading"> Mental Wellness aspects:</h2>
         {/* Day selection */}
       <div className="day-selector">
-        <h2>Select a Day:</h2>
         {renderDayButtons()}
       </div>
       <div className='wellness-Container'>
       <div className='wellness-Card'>
-      <h1 className='wellness-Text'>Mental Wellness Checks: </h1>
+      <h1 className='wellness-Text'></h1>
        {selectedCheck.length > 0 && renderTaskButtons().length > 0 ? (
         <div className='buttonsWrapper'>
           {renderTaskButtons()}
         </div>
       ) : (
-        <p className='unavailable-Text'></p>
+        <p className='Text'>Please choose a wellness aspect from the options on the side.</p>
       )}
       </div>
       </div>
