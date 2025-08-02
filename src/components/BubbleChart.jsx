@@ -3,8 +3,8 @@ import * as d3 from "d3";
 
 const BubbleChart = ({ data }) => {
   const ref = useRef();
-  const width = 550;
-  const height = 600;
+  const width = 500;
+  const height = 500;
 
   useEffect(() => {
     const svg = d3.select(ref.current);
@@ -14,9 +14,9 @@ const BubbleChart = ({ data }) => {
 
     const pack = d3.pack()
       .size([width, height])
-      .padding(10);
+      .padding(5);
 
-    const root = d3.hierarchy({ children: data }).sum(d => Math.pow(d.value, 4))
+    const root = d3.hierarchy({ children: data }).sum(d => Math.pow(d.value, 0.5))
     const nodes = pack(root).leaves();
 
     nodes.forEach(d => {
@@ -32,7 +32,8 @@ const BubbleChart = ({ data }) => {
       .attr("viewBox", `0 0 ${width} ${height}`)
       .style("background-color", "#32436F")
       .append("g")
-      .attr("transform", "translate(60, -150)");
+      .attr("transform", "translate(50, -20)");
+   
 
     const tooltip = d3.select("body")
       .append("div")
@@ -63,8 +64,8 @@ const BubbleChart = ({ data }) => {
       })
       .on("mousemove", (event) => {
         tooltip
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY + 60 + "px");
+          .style("left", event.pageX + 30 + "px")
+          .style("top", event.pageY - 60 + "px");
       })
       .on("mouseout", () => {
         tooltip.style("opacity", 0);
@@ -75,8 +76,8 @@ const BubbleChart = ({ data }) => {
           // Pull back to original position
           const dx0 = d.x0 - d.x;
           const dy0 = d.y0 - d.y;
-          d.vx += dx0 * 0.02;
-          d.vy += dy0 * 0.02;
+          d.vx += dx0 * 0.08;
+          d.vy += dy0 * 0.08;
       
           // Repel from mouse if nearby
           if (mx !== null && my !== null) {
@@ -85,7 +86,7 @@ const BubbleChart = ({ data }) => {
             const distSq = dx * dx + dy * dy;
       
             if (distSq < 10000) {
-              const force = 5 / Math.sqrt(distSq);
+              const force = 2 / Math.sqrt(distSq);
               d.vx += dx * force;
               d.vy += dy * force;
             }
