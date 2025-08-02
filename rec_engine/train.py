@@ -12,12 +12,30 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from features import FeatureBuilder
 import json
+import firebase_admin
+from firebase_admin import firestore
 
-# Load data
-df = pd.read_csv("../data/student_data.csv")
+# Initialize Firebase (if not already done)
+if not firebase_admin._apps:
+    firebase_admin.initialize_app()
+
+db = firestore.client()
+
+def load_data_from_firestore(collection_name='student_data'):
+    """Load training data from Firestore"""
+    print(f"Loading data from Firestore collection: {collection_name}")
+    docs = db.collection(collection_name).stream()
+    data = [doc.to_dict() for doc in docs]
+    df = pd.DataFrame(data)
+    print(f"Loaded {len(df)} rows from Firestore")
+    return df
+
+# Load data from Firestore instead of CSV
+df = load_data_from_firestore('student_data')  # Change collection name if needed
 
 # One-hot encode chatbot_topic
 df = pd.get_dummies(df, columns=['chatbot_topic'], prefix='topic')
+
 tip_encoder = LabelEncoder()
 df['tip_encoded'] = tip_encoder.fit_transform(df['recommended_tip'])
 

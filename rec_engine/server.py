@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from features import FeatureBuilder
 import json
+from firebase_admin import firestore
+from notifications import send_push_notification
 
 # import firebase_admin
 # from firebase_admin import credentials, firestore
@@ -110,6 +112,42 @@ def recommend(data: InputData):
     except Exception as e:
         print("❌ ERROR:", str(e))
         return {"error": str(e)}
+
+
+#STORE RECOMMENDATION IN FIRESTORE
+db = firestore.client()
+
+def store_recommendation(user_id, tip):
+    doc_ref = db.collection("recommendations").document(user_id)
+    doc_ref.set({
+        "recommendation": tip,
+        "timestamp": firestore.SERVER_TIMESTAMP
+    })
+
+
+
+# SEND PUSH NOTIFICATION
+@app.post("/notify")
+def notify_user(user_token: str, tip: str):
+    if not user_token or not tip:
+        return {"error": "User token and tip are required"}
+
+    # Store recommendation in Firestore
+    store_recommendation(user_token, tip)
+
+    # Send push notification
+    try:
+        send_push_notification(
+            token=user_token,
+            title="Your Recommendation",
+            body=f"Your recommended tip is: {tip}"
+        )
+        return {"status": "Notification sent successfully"}
+    except Exception as e:
+        print("❌ Notification error:", str(e))
+        return {"error": str(e)}
+
+
 
 # topic_cols = ['topic_academic', 'topic_addiction recovery', 'topic_anxiety', 'topic_budgeting', 'topic_career development',
 #   'topic_cognitive behavioral therapy', 'topic_creativity', 'topic_emotion regulation', 'topic_fast food',
