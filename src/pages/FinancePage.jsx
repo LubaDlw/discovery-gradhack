@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -65,13 +66,13 @@ function FinancePage() {
       </div>
       <div className='wellness-Container'>
       <div className='wellness-Card'>
-      <h1 className='wellness-Text'>Financial Awareness Checks: </h1>
+      <h1 className='wellness-Text'></h1>
        {selectedCheck.length > 0 && renderTaskButtons().length > 0 ? (
         <div className='finButtonWrapper'>
           {renderTaskButtons()}
         </div>
       ) : (
-        <p className='unavailable-Text'></p>
+        <p className='unavailable-Text'>Please choose a financial concept from the options on the side.</p>
       )}
       </div>
       </div>
