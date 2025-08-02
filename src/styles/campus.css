@@ -6,7 +6,7 @@
   }
   
   .campus-page-container {
-    padding-top: 40px;
+    padding-top: 20px;
     padding-left: 100px;
     padding-right: 100px;
   }
@@ -31,10 +31,16 @@
   }
   
   .campus-white-box {
+    width: 40%;
     background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0.15, 0.15);
+    padding: 10px 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     border-radius: 20px;
+    margin-left: -50px;
+  
+    position: relative;
+    left: -50px;  
+    z-index: 10;  
   }
   
   .campus-category-section {
@@ -114,4 +120,6 @@
   
   .Youtube-list {
     margin-top: 150px;
+    font-family: Discovery-Font;
+    color: #222a52;
   }
