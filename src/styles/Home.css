@@ -16,6 +16,7 @@
     margin-bottom: 20px;
     font-size: 1.5rem;
     letter-spacing: 1px;
+    color: #565e9a;
   }
   
   .top-section {
@@ -142,3 +143,37 @@
     color: #666;
     padding-left: 12px;
   }
+
+  .rewards-icons-container {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .icon-progress-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .icon-image {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+  }
+  
+  .icon-label {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #333;
+  }
+  
