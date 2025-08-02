@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Campus.css";
 import BubbleChart from "../components/BubbleChart";
+import YouTubeVideoList from "../components/content/YouTubeVideoList";
 
 function CampusPage() {
   const [categories, setCategories] = useState([
@@ -14,7 +15,7 @@ function CampusPage() {
   const MAX_VALUE = 10;
 
   const increment = (index) => {
-    setCategories(prev =>
+    setCategories((prev) =>
       prev.map((cat, i) =>
         i === index ? { ...cat, value: Math.min(cat.value + 1, MAX_VALUE) } : cat
       )
@@ -29,18 +30,27 @@ function CampusPage() {
         <div className="campus-white-box campus-category-section">
           <h3>Academic Focus Areas</h3>
           <div className="campus-icons-container">
-            {/* You can still add DonutProgress or icons here */}
+            {/* Optional visual elements here */}
           </div>
         </div>
       </div>
 
       <div className="campus-blue-section">
         <h3 className="campus-blue-title">Engagement Bubble Graph</h3>
-
-        <div className="campus-card-container" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <div
+          className="campus-card-container"
+          style={{ maxWidth: "800px", margin: "0 auto" }}
+        >
           <BubbleChart data={categories} />
-
-          <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center" }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "1rem",
+              justifyContent: "center",
+            }}
+          >
             {categories.map((cat, i) => (
               <button
                 key={cat.name}
@@ -60,6 +70,11 @@ function CampusPage() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div>
+        <h1>Welcome to the Campus Page!</h1>
+        <YouTubeVideoList topic="Student Corner" />
       </div>
     </div>
   );

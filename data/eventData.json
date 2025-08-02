@@ -1,0 +1,99 @@
+[
+    { 
+        "event": 1, 
+        "qrCode": "EVENT_001", 
+        "name": "Orientation Week",
+        "date": "2024-01-15",
+        "Wits": 45, "UP": 38, "UCT": 42, "SU": 35, "NWU": 28, "UJ": 40 
+    },
+    { 
+        "event": 2, 
+        "qrCode": "EVENT_002", 
+        "name": "Career Fair",
+        "date": "2024-02-20",
+        "Wits": 52, "UP": 41, "UCT": 48, "SU": 39, "NWU": 32, "UJ": 44 
+    },
+    { 
+        "event": 3, 
+        "qrCode": "EVENT_003", 
+        "name": "Sports Day",
+        "date": "2024-03-10",
+        "Wits": 38, "UP": 45, "UCT": 35, "SU": 42, "NWU": 38, "UJ": 41 
+    },
+    { 
+        "event": 4, 
+        "qrCode": "EVENT_004", 
+        "name": "Research Symposium",
+        "date": "2024-04-05",
+        "Wits": 61, "UP": 48, "UCT": 55, "SU": 46, "NWU": 41, "UJ": 49 
+    },
+    { 
+        "event": 5, 
+        "qrCode": "EVENT_005", 
+        "name": "Graduation Ceremony",
+        "date": "2024-05-15",
+        "Wits": 47, "UP": 52, "UCT": 44, "SU": 48, "NWU": 35, "UJ": 46 
+    },
+    {
+        "event": 6,
+        "qrCode": "EVENT_006",
+        "name": "Spring Graduation Ceremony",
+        "date": "2024-09-10",
+        "Wits": 50,
+        "UP": 55,
+        "UCT": 48,
+        "SU": 49,
+        "NWU": 38,
+        "UJ": 44
+    },
+    {
+        "event": 7,
+        "qrCode": "EVENT_007",
+        "name": "Health Sciences Graduation",
+        "date": "2024-09-03",
+        "Wits": 45,
+        "UP": 50,
+        "UCT": 52,
+        "SU": 46,
+        "NWU": 34,
+        "UJ": 41
+    },
+    {
+        "event": 8,
+        "qrCode": "EVENT_008",
+        "name": "Engineering Graduates Convocation",
+        "date": "2024-07-15",
+        "Wits": 43,
+        "UP": 51,
+        "UCT": 45,
+        "SU": 47,
+        "NWU": 33,
+        "UJ": 42
+    },
+    {
+        "event": 9,
+        "qrCode": "EVENT_009",
+        "name": "Law Faculty Graduation",
+        "date": "2024-09-03",
+        "Wits": 48,
+        "UP": 54,
+        "UCT": 46,
+        "SU": 44,
+        "NWU": 36,
+        "UJ": 40
+    },
+    {
+        "event": 10,
+        "qrCode": "EVENT_010",
+        "name": "Autumn Graduation Ceremony",
+        "date": "2024-05-30",
+        "Wits": 49,
+        "UP": 53,
+        "UCT": 47,
+        "SU": 50,
+        "NWU": 39,
+        "UJ": 45
+    }
+
+
+]

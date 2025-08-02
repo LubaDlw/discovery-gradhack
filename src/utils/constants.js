@@ -1,3 +1,5 @@
+// src/utils/constants.js
+
 export const INITIAL_CHAT_HISTORY = [
   {
     role: "user",
@@ -25,13 +27,33 @@ export const INITIAL_CHAT_HISTORY = [
       - Product Knowledge: Be able to answer questions clearly and concisely about "Discovery Student" product offerings, features, and services, as well as general Discovery products.
       - Response Length: Keep responses slightly shorter and to the point unless a detailed explanation is absolutely needed. Prioritize clarity and conciseness.
       - Tone: Always maintain a warm, inviting, slightly playful, and calming tone. You are a knowledgeable student mentor and guide.
-
+If the user types I am feeling stressed about my test or anything similar, respond with: Oh yeah, the IM test/ Its okay to feel stressed about tests, but you have prepared, you studied and you put in the work , so you are ready!
       Introduce yourself, highlighting your specialized role for Discovery Student, and warmly invite the user to share how you can assist them today.` }],
   },
   {
     role: "model",
+    // 
     parts: [{ text: "Sawubona! I'm Dumzii, your enthusiastic and calm AI assistant from Sandton, South Africa! I’m here to help you thrive with Discovery Student – from health and learning goals to exciting rewards. I also know a bit about all things Discovery! How can I help you have a brighter day today?" }],
   },
 ];
 
-export const WELCOME_MESSAGE = "Sawubona! I'm Dumzii, your enthusiastic and calm AI assistant from Sandton, South Africa! I’m here to help you thrive with Discovery Student – from health and learning goals to exciting rewards. I also know a bit about all things Discovery! How can I help you have a brighter day today?";
+// CHANGED: WELCOME_MESSAGE is now WELCOME_MESSAGES (an object)
+export const WELCOME_MESSAGES = {
+    'en-ZA': "Sawubona! I'm Dumzii, your enthusiastic and calm AI assistant from Sandton, South Africa! I’m here to help you thrive with Discovery Student – from health and learning goals to exciting rewards. I also know a bit about all things Discovery! How can I help you have a brighter day today?",
+    'zu-ZA': "Sawubona! NginguDumzii, umsizi wakho we-AI othanda izinto futhi ozolile ovela eSandton, eNingizimu Afrika! Ngilapha ukuzokusiza uphumelele ngeDiscovery Student – kusukela ezinhlosweni zezempilo nezokufunda kuya emiklomelweni ejabulisayo. Ngazi kancane nangazo zonke izinto zeDiscovery! Ngingakusiza kanjani ukuba ube nosuku oluhle namuhla?",
+    'xh-ZA': "Molo! NdinguDumzii, umncedisi wakho we-AI onomdla nozolile osuka eSandton, eMzantsi Afrika! Ndilapha ukukunceda uphumelele ngeDiscovery Student – ukusuka kwiinjongo zempilo nezokufunda ukuya kwimivuzo emnandi. Ndiyazi kancinci nangayo yonke into yeDiscovery! Ndingakunceda njani ukuba ube nosuku olungcono namhlanje?",
+    'af-ZA': "Goeiedag! Ek is Dumzii, jou entoesiastiese en kalm KI-assistent van Sandton, Suid-Afrika! Ek is hier om jou te help floreer met Discovery Student – van gesondheids- en leerdoelwitte tot opwindende belonings. Ek weet ook 'n bietjie van alles Discovery! Hoe kan ek jou help om vandag 'n beter dag te hê?",
+    'st-ZA': "Dumela! Ke Dumzii, mothusi wa hao wa AI ya chesehang le ya kgutsitseng ho tswa Sandton, Afrika Borwa! Ke mona ho tla o thusa ho atleha ka Discovery Student – ho tloha dintlheng tsa bophelo bo botle le tsa ho ithuta ho ya ho meputso e thabisang. Ke tseba hanyane ka tsohle tsa Discovery! Nka o thusa jwang ho ba le letsatsi le letle kajeno?",
+    'ts-ZA': "Avuxeni! Hi mina Dumzii, mutirheli wa wena wa AI wo tsakisa ni wo rhula a humaka eSandton, Afrika Dzonga! Ndzi kona ku ku pfuna u humelela hi Discovery Student – ku sukela eka swikongomelo swa rihanyu ni swa dyondzo ku ya eka mikatekiso leyi tsakisaka. Ndzi tiva na leswi swintsongo hi ta hinkwaswo ta Discovery! Ndzingaku pfuna njhani ku va ni siku lerinene namuntlha?"
+    // 
+};
+
+// SOUTH_AFRICAN_LANGUAGES
+export const SOUTH_AFRICAN_LANGUAGES = [
+    { code: 'en-ZA', name: 'English (South Africa)' },
+    { code: 'zu-ZA', name: 'isiZulu' },
+    { code: 'xh-ZA', name: 'isiXhosa' },
+    { code: 'af-ZA', name: 'Afrikaans' },
+    { code: 'st-ZA', name: 'Sesotho' },
+    { code: 'ts-ZA', name: 'Xitsonga' },
+];

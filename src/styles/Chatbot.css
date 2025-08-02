@@ -284,3 +284,25 @@
     border-top: 1px solid #e5e7eb; /* Border-t border-gray-200 */
     background-color: #f9fafb; /* Gray-50 */
 }
+
+/* Add to src/styles/Chatbot.css or a new ChatHeader.css */
+.language-selector {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db; /* A light grey border */
+    background-color: #ffffff; /* White background */
+    color: #4A0082; /* Discovery purple text */
+    font-size: 0.875rem; /* text-sm */
+    cursor: pointer;
+    appearance: none; /* Remove default arrow in some browsers */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234A0082"><path d="M7 10l5 5 5-5z"/></svg>'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em;
+}
+
+.language-selector:focus {
+    outline: none;
+    border-color: #3b82f6; /* Blue-500 for focus */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}

@@ -1,36 +1,55 @@
-import React, { useState, useEffect, useRef } from 'react';
+
+// src/components/chatbot/DumiChatbot.jsx
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import { GeminiService } from '../../services/geminiService';
 import { FirebaseService } from '../../services/firebaseService';
-import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGE } from '../../utils/constants';
+import { INITIAL_CHAT_HISTORY, WELCOME_MESSAGES, SOUTH_AFRICAN_LANGUAGES } from '../../utils/constants';
 import { NAV_LINKS } from '../../utils/navigationConstants';
-import { Bot, Home } from 'lucide-react';
+import { Bot, Home, BookOpen, Heart, TrendingUp, Briefcase } from 'lucide-react';
 import '../../styles/Chatbot.css';
+import '../../styles/ContentComponents.css';
 
-// Base URL for your backend server
+// Base URL for your backend server (if you have other backend API calls)
 const BACKEND_URL = 'http://localhost:5000';
 
+// Define your suggested resource links and their associated keywords
+const SUGGESTED_RESOURCES = [
+    { name: 'Mental Wellness Resources', icon: Heart, link: '/wellness', keywords: ['sad', 'stressed', 'anxious', 'depressed', 'unhappy', 'lonely', 'fatigued'] }, // 'stressed' and 'fatigued' added here
+    { name: 'Financial Aid & Advice', icon: TrendingUp, link: '/finance', keywords: ['broke', 'money', 'financial', 'debt', 'budget'] },
+    { name: 'Study & Career Guidance', icon: BookOpen, link: '/campus', keywords: ['study', 'career', 'job', 'exams', 'university', 'college', 'behind on work'] }, // 'behind on work' added here
+    // Add more resources as needed
+];
+
 const DumiChatbot = () => {
+    // ... (rest of your component's state and functions remain the same)
+
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [userId, setUserId] = useState(null);
     const [chatHistory, setChatHistory] = useState(INITIAL_CHAT_HISTORY);
+    const [selectedLanguageCode, setSelectedLanguageCode] = useState('en-ZA');
 
-    // State for voice interaction
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const audioPlayerRef = useRef(null);
-
-    // Keep this state to reflect the *current* user preference/last action,
-    // but pass it explicitly to sendMessage to ensure accurate behavior for that call.
     const [lastInputMethod, setLastInputMethod] = useState('text');
 
-    // Initialize Firebase and welcome message
+    const [showResources, setShowResources] = useState(false);
+
+    const getGeminiPrompt = useCallback(() => {
+        const basePrompt = INITIAL_CHAT_HISTORY[0].parts[0].text;
+        const selectedLangName = SOUTH_AFRICAN_LANGUAGES.find(lang => lang.code === selectedLanguageCode)?.name || 'English';
+        return `${basePrompt}\n\nAll your responses MUST be in ${selectedLangName}.`;
+    }, [selectedLanguageCode]);
+
     useEffect(() => {
+        // ... (rest of useEffect content)
         FirebaseService.initialize()
             .then((auth) => {
                 if (auth) {
@@ -47,16 +66,8 @@ const DumiChatbot = () => {
             })
             .catch((error) => {
                 console.error("Firebase initialization failed:", error);
+                alert("Firebase initialization failed. Some features may not work.");
             });
-
-        setMessages([
-            {
-                id: 1,
-                sender: 'bot',
-                text: WELCOME_MESSAGE,
-                timestamp: new Date()
-            }
-        ]);
 
         audioPlayerRef.current = new Audio();
         audioPlayerRef.current.onended = () => {
@@ -69,40 +80,54 @@ const DumiChatbot = () => {
                 audioPlayerRef.current.src = '';
             }
         };
-
     }, []);
 
-    // Function to start recording audio
+    useEffect(() => {
+        const currentWelcomeMessage = WELCOME_MESSAGES[selectedLanguageCode] || WELCOME_MESSAGES['en-ZA'];
+        setChatHistory([
+            {
+                role: "user",
+                parts: [{ text: getGeminiPrompt() }]
+            },
+            {
+                role: "model",
+                parts: [{ text: currentWelcomeMessage }]
+            }
+        ]);
+        setMessages([
+            {
+                id: 1,
+                sender: 'bot',
+                text: currentWelcomeMessage,
+                timestamp: new Date()
+            }
+        ]);
+        setShowResources(false);
+    }, [selectedLanguageCode, getGeminiPrompt]);
+
     const startRecording = async () => {
         if (audioPlayerRef.current && !audioPlayerRef.current.paused) {
             audioPlayerRef.current.pause();
         }
-
-        // Set input method to voice when recording starts
-        setLastInputMethod('voice'); // This updates the state
-
+        setLastInputMethod('voice');
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
                 ? 'audio/webm;codecs=opus'
                 : 'audio/webm';
-
             mediaRecorderRef.current = new MediaRecorder(stream, { mimeType });
             audioChunksRef.current = [];
-
             mediaRecorderRef.current.ondataavailable = (event) => {
                 if (event.data.size > 0) {
                     audioChunksRef.current.push(event.data);
                 }
             };
-
             mediaRecorderRef.current.onstop = async () => {
                 setIsLoading(true);
                 const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-                await sendAudioForTranscription(audioBlob);
+                await sendAudioForTranscription(audioBlob, selectedLanguageCode);
                 audioChunksRef.current = [];
             };
-
             mediaRecorderRef.current.start();
             setIsRecording(true);
             console.log("Recording started...");
@@ -112,7 +137,6 @@ const DumiChatbot = () => {
         }
     };
 
-    // Function to stop recording audio
     const stopRecording = () => {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
             mediaRecorderRef.current.stop();
@@ -122,35 +146,28 @@ const DumiChatbot = () => {
         }
     };
 
-    // Function to send recorded audio to Google Cloud for transcription
-    const sendAudioForTranscription = async (audioBlob) => {
+    const sendAudioForTranscription = async (audioBlob, languageCode) => {
         try {
             const reader = new FileReader();
             reader.readAsDataURL(audioBlob);
 
             reader.onloadend = async () => {
                 const base64Audio = reader.result.split(',')[1];
-
-                console.log("Sending audio for transcription to Google Cloud STT directly...");
-
-                let audioEncoding = 'WEBM_OPUS';
+                console.log(`Sending audio for transcription to Google Cloud STT directly (Lang: ${languageCode})...`);
+                const audioEncoding = 'WEBM_OPUS';
                 const sampleRateHertz = 48000;
 
                 const response = await fetch(`https://speech.googleapis.com/v1/speech:recognize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         config: {
                             encoding: audioEncoding,
                             sampleRateHertz: sampleRateHertz,
-                            languageCode: 'en-US',
+                            languageCode: languageCode,
                             model: 'default',
                         },
-                        audio: {
-                            content: base64Audio,
-                        },
+                        audio: { content: base64Audio },
                     }),
                 });
 
@@ -167,8 +184,6 @@ const DumiChatbot = () => {
 
                 if (transcribedText) {
                     console.log("Transcribed:", transcribedText);
-                    // *** IMPORTANT CHANGE HERE ***
-                    // Pass 'voice' explicitly to sendMessage
                     await sendMessage(transcribedText, 'voice');
                     setInputValue('');
                 } else {
@@ -204,22 +219,20 @@ const DumiChatbot = () => {
         }
     };
 
-    // Function to send chatbot's text response to Google Cloud for speech synthesis
     const sendTextForSpeechSynthesis = async (text) => {
         try {
-            console.log("Sending text for speech synthesis to Google Cloud TTS directly...");
+            console.log(`Sending text for speech synthesis to Google Cloud TTS using en-US voice...`);
+            const targetLanguageCodeForTTS = 'en-US';
+            const targetVoiceNameForTTS = 'en-US-Wavenet-D';
+
             const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${import.meta.env.VITE_GOOGLE_CLOUD_API_KEY}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    input: {
-                        text: text,
-                    },
+                    input: { text: text },
                     voice: {
-                        languageCode: 'en-US',
-                        name: 'en-US-Wavenet-D',
+                        languageCode: targetLanguageCodeForTTS,
+                        name: targetVoiceNameForTTS,
                         ssmlGender: 'MALE',
                     },
                     audioConfig: {
@@ -257,7 +270,6 @@ const DumiChatbot = () => {
         }
     };
 
-    // Function to play base64 audio
     const playAudio = (base64Audio) => {
         return new Promise((resolve, reject) => {
             if (!audioPlayerRef.current) {
@@ -278,6 +290,7 @@ const DumiChatbot = () => {
                 console.error("Audio playback error (general):", e);
                 reject(e);
             };
+
             if (audioPlayerRef.current.readyState >= 3) {
                 audioPlayerRef.current.play().catch(e => {
                     console.error("Error playing audio (readyState):", e);
@@ -292,17 +305,27 @@ const DumiChatbot = () => {
         });
     };
 
-    // sendMessage now explicitly uses the provided inputMethod for its logic
-    const sendMessage = async (message, inputMethod = 'text') => { // Default to 'text' if not specified
+    const checkForResourceKeywords = (message) => {
+        const lowerCaseMessage = message.toLowerCase();
+        let foundKeyword = false;
+        for (const resource of SUGGESTED_RESOURCES) {
+            if (resource.keywords.some(keyword => lowerCaseMessage.includes(keyword))) {
+                foundKeyword = true;
+                break;
+            }
+        }
+        setShowResources(foundKeyword);
+    };
+
+    const sendMessage = async (message, inputMethod = 'text') => {
         if (!message.trim() && !isRecording) {
             return;
         }
 
-        // We can still update lastInputMethod state, but the conditional logic
-        // will rely on the `inputMethod` argument directly.
         setLastInputMethod(inputMethod);
 
-        // Add user message
+        checkForResourceKeywords(message);
+
         setMessages(prev => [...prev, {
             id: Date.now(),
             sender: 'user',
@@ -314,10 +337,14 @@ const DumiChatbot = () => {
         setIsLoading(true);
 
         try {
-            const newChatHistory = [...chatHistory, { role: "user", parts: [{ text: message }] }];
-            setChatHistory(newChatHistory);
+            const currentGeminiPrompt = getGeminiPrompt();
+            const conversationHistoryForGemini = [
+                { role: "user", parts: [{ text: currentGeminiPrompt }] },
+                ...chatHistory.slice(1),
+                { role: "user", parts: [{ text: message }] }
+            ];
 
-            const botResponse = await GeminiService.sendMessage(newChatHistory);
+            const botResponse = await GeminiService.sendMessage(conversationHistoryForGemini);
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
@@ -326,10 +353,9 @@ const DumiChatbot = () => {
                 timestamp: new Date()
             }]);
 
-            setChatHistory([...newChatHistory, { role: "model", parts: [{ text: botResponse }] }]);
+            setChatHistory([...conversationHistoryForGemini, { role: "model", parts: [{ text: botResponse }] }]);
 
-            // Conditional TTS call based on the `inputMethod` ARGUMENT
-            if (inputMethod === 'voice') { // <--- Rely on the passed argument
+            if (inputMethod === 'voice' && selectedLanguageCode === 'en-ZA') {
                 await sendTextForSpeechSynthesis(botResponse);
             } else {
                 setIsLoading(false);
@@ -344,14 +370,14 @@ const DumiChatbot = () => {
                 timestamp: new Date()
             }]);
             setIsLoading(false);
-        } finally {
-            // Loading state is now conditionally managed.
         }
     };
 
+    const currentNavLinks = showResources ? SUGGESTED_RESOURCES : NAV_LINKS;
+
     return (
         <div className="chatbot-container">
-            {/* Left Panel */}
+            {/* Left Panel (Sidebar) */}
             <div className="chatbot-sidebar">
                 <div className="sidebar-header">
                     <div className="sidebar-logo">
@@ -359,12 +385,14 @@ const DumiChatbot = () => {
                     </div>
                     <span className="sidebar-title">Dumzii</span>
                 </div>
-                <p className="sidebar-tagline">Your AI study assistant for Vitakity</p>
+                <p className="sidebar-tagline">Your AI study assistant for vitakity for students</p>
 
-                <h3 className="sidebar-section-title">Suggested Topics</h3>
+                <h3 className="sidebar-section-title">
+                    {showResources ? "Suggested Resources" : "Suggested Topics"}
+                </h3>
                 <nav>
                     <ul className="sidebar-nav-list">
-                        {NAV_LINKS.map((item, index) => (
+                        {currentNavLinks.map((item, index) => (
                             <li key={index} className="sidebar-nav-item">
                                 <button className="sidebar-nav-button" onClick={() => console.log(`Navigating to ${item.link}`)}>
                                     {item.icon && <item.icon />}
@@ -382,18 +410,22 @@ const DumiChatbot = () => {
                 )}
             </div>
 
-            {/* Main Chat Content */}
+            {/* Main Chat Content Area */}
             <div className="chatbot-main-content">
-                <ChatHeader />
+                <ChatHeader
+                    language={selectedLanguageCode}
+                    onLanguageChange={setSelectedLanguageCode}
+                />
                 <ChatMessages messages={messages} isLoading={isLoading} />
                 <ChatInput
                     inputValue={inputValue}
                     setInputValue={setInputValue}
-                    onSend={(message) => sendMessage(message, 'text')} // *** IMPORTANT CHANGE HERE ***
+                    onSend={(message) => sendMessage(message, 'text')}
                     isLoading={isLoading}
                     onStartRecording={startRecording}
                     onStopRecording={stopRecording}
                     isRecording={isRecording}
+                    selectedLanguageCode={selectedLanguageCode}
                 />
             </div>
         </div>
