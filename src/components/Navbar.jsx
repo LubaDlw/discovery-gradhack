@@ -41,7 +41,7 @@ function Navbar() {
       { path: "/campus", label: "CAMPUS" },
       { path: "/dumzii", label: "DUMZII" },
       { path: "/content", label: "CONTENT" },
-      { path: "/notifications", label: "🔔"},
+      { path: "/recommendationcontext", label: "🔔"},
       { path: "/contact", label: "📞" },
 
     ].map((link) => (

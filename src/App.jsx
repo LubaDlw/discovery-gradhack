@@ -7,6 +7,7 @@ import FinancePage from "./pages/FinancePage";
 import CampusPage from "./pages/CampusPage";
 import ChatPage from "./pages/ChatPage";
 import ContactPage from "./pages/ContactPage";
+//import RecommendationContext from "./Context/RecommendationContext";
 //import YouTubeVideoList from '../components/content/YouTubeVideoList';
 import YouTubeVideoList from "./components/content/YouTubeVideoList";
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/Day3Task1" element = {<Day3Task1/>}/>
         <Route path="/Day1Streak1" element = {<Day1Streak1/>}/>
         <Route path="/Day1Streak2" element = {<Day1Streak2/>}/>
+        {/* <Route path="/RecommendationContext" element = {<RecommendationContext/>}/> */}
             {/* This is the route for playing individual YouTube videos */}
         <Route path="/play-video/:videoId" element={<VideoPlayerPage />} />
       </Routes>
