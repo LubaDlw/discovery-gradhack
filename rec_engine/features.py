@@ -11,9 +11,12 @@ class FeatureBuilder(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-        # Convert numpy array to DataFrame using stored feature names
+        # Handle both numpy arrays and DataFrames
         if isinstance(X, np.ndarray):
             X = pd.DataFrame(X, columns=self.feature_names)
+        elif isinstance(X, pd.DataFrame):
+            # Ensure columns are in the correct order and only include expected features
+            X = X[self.feature_names].copy()
         
         # Fill missing topic columns with 0 if needed (optional)
         for col in self.topic_cols:
@@ -27,4 +30,3 @@ class FeatureBuilder(BaseEstimator, TransformerMixin):
         X['interaction_food_mood'] = X['fast_food_pct'] * X['mood_score']
 
         return X.values  # return as NumPy array for next pipeline step
-

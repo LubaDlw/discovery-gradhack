@@ -61,10 +61,10 @@ app.add_middleware(
 class InputData(BaseModel):
     fast_food_pct: float
     logins_per_week: int
-    chatbot_topic: str
-    water_drank: float
-    daily_steps: int
-    mood_score: int
+    mood_score: int        # Move this up
+    daily_steps: int       # Move this up  
+    water_drank: float     # Move this down
+    chatbot_topic: str 
 
 @app.get("/")
 def read_root():
@@ -72,36 +72,52 @@ def read_root():
 
 print(pipeline.named_steps.keys())
 
-with open('feature_columns.json', 'r') as f:
-    feature_cols = json.load(f)
+# Get the exact feature names from the FeatureBuilder in the pipeline
+feature_builder = pipeline.named_steps['features']
+feature_cols = feature_builder.feature_names
+topic_cols = feature_builder.topic_cols
 
-# Extract topic columns from your FeatureBuilder inside pipeline
-topic_cols = pipeline.named_steps['features'].topic_cols  # adjust key to your pipeline step name
+print("SERVER feature_cols (from FeatureBuilder):")
+for col in feature_cols:
+    print(col)
 
 @app.post("/recommend")
 def recommend(data: InputData):
-    print("Received data:", data)
+    print(f"Received data: fast_food_pct={data.fast_food_pct} logins_per_week={data.logins_per_week} mood_score={data.mood_score} daily_steps={data.daily_steps} water_drank={data.water_drank} chatbot_topic='{data.chatbot_topic}'")
     try:
-        # Initialize all columns with zeros
-        row = dict.fromkeys(feature_cols, 0)
+        # Use the exact feature order that the scaler expects (from scaler.feature_names_in_)
+        scaler = pipeline.named_steps['scaler']
+        base_feature_cols = scaler.feature_names_in_.tolist()
+        
+        print("Base feature columns:", base_feature_cols)
+        
+        # Initialize all base columns with zeros in the EXACT order from training
+        row = {}
+        for col in base_feature_cols:
+            row[col] = 0
 
         # Fill numerical features
         row['fast_food_pct'] = data.fast_food_pct
         row['logins_per_week'] = data.logins_per_week
-        row['water_drank'] = data.water_drank
         row['daily_steps'] = data.daily_steps
         row['mood_score'] = data.mood_score
+        row['water_drank'] = data.water_drank
 
         # Set one-hot chatbot topic column to 1
-        topic_key = f"topic_{data.chatbot_topic}"
-        if topic_key not in feature_cols:
-            return {"error": f"Unknown topic '{data.chatbot_topic}'"}
+        topic_key = f"topic_{data.chatbot_topic.replace(' ', '_')}"
+        if topic_key not in topic_cols:
+            return {"error": f"Unknown topic '{data.chatbot_topic}'. Available topics: {[col.replace('topic_', '').replace('_', ' ') for col in topic_cols]}"}
         row[topic_key] = 1
 
-        # Create DataFrame with exact columns and order
-        X_input = pd.DataFrame([row], columns=feature_cols)
+        # Create DataFrame with base features in the EXACT order they were during training
+        X_input = pd.DataFrame([row], columns=base_feature_cols)
 
-        # Run full pipeline (feature transformations + model prediction)
+        print("Input columns to pipeline:", X_input.columns.tolist())
+        print("Input DataFrame shape:", X_input.shape)
+        print("Input DataFrame head:")
+        print(X_input.head())
+
+        # Run full pipeline - the FeatureBuilder will add interaction features
         prediction = pipeline.predict(X_input)
 
         # Decode label to tip string
@@ -111,41 +127,11 @@ def recommend(data: InputData):
     
     except Exception as e:
         print("❌ ERROR:", str(e))
+        import traceback
+        traceback.print_exc()
         return {"error": str(e)}
 
 
-#STORE RECOMMENDATION IN FIRESTORE
-db = firestore.client()
-
-def store_recommendation(user_id, tip):
-    doc_ref = db.collection("recommendations").document(user_id)
-    doc_ref.set({
-        "recommendation": tip,
-        "timestamp": firestore.SERVER_TIMESTAMP
-    })
-
-
-
-# SEND PUSH NOTIFICATION
-@app.post("/notify")
-def notify_user(user_token: str, tip: str):
-    if not user_token or not tip:
-        return {"error": "User token and tip are required"}
-
-    # Store recommendation in Firestore
-    store_recommendation(user_token, tip)
-
-    # Send push notification
-    try:
-        send_push_notification(
-            token=user_token,
-            title="Your Recommendation",
-            body=f"Your recommended tip is: {tip}"
-        )
-        return {"status": "Notification sent successfully"}
-    except Exception as e:
-        print("❌ Notification error:", str(e))
-        return {"error": str(e)}
 
 
 
@@ -175,7 +161,3 @@ def notify_user(user_token: str, tip: str):
 #   print("Final recommendation:", tip)
 
 #   return {"recommendation": tip}
-
-
-
-

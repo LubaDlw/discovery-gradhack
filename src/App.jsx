@@ -9,6 +9,7 @@ import ChatPage from "./pages/ChatPage";
 import ContactPage from "./pages/ContactPage";
 //import YouTubeVideoList from '../components/content/YouTubeVideoList';
 import YouTubeVideoList from "./components/content/YouTubeVideoList";
+import RecommendationTester  from "./Context/recsNotifs"; // Import the recommendation tester component
 
 // Import the new VideoPlayerPage
 import VideoPlayerPage from "./pages/VideoPlayerPage";
@@ -35,6 +36,7 @@ function App() {
         <Route path="/Day3Task1" element = {<Day3Task1/>}/>
         <Route path="/Day1Streak1" element = {<Day1Streak1/>}/>
         <Route path="/Day1Streak2" element = {<Day1Streak2/>}/>
+        <Route path="/notifications" element={<RecommendationTester/>} />
             {/* This is the route for playing individual YouTube videos */}
         <Route path="/play-video/:videoId" element={<VideoPlayerPage />} />
       </Routes>
