@@ -13,7 +13,6 @@ import upNextImg from '../assets/upnext.png';
 import infoIcon from '../assets/info-icon.png'; 
 import UniversityLineGraph from "../components/UniversityLineGraph";
 import StackedChallengeCarousel from "../components/StackedChallengeCarousel";
-import { color } from "d3";
 
 function HomePage() {
   const steps = useSimulatedSteps();
@@ -72,7 +71,7 @@ function HomePage() {
       </div>
 
       <div className="purple-section">
-        <h5 className="purple-title">University focused</h5>
+        <h3 className="purple-title">University focused</h3>
         <div className="inner-boxes">
           <div className="inner-box left-box">
             <h4>HealthyLiving rewards</h4>
@@ -143,7 +142,7 @@ function HomePage() {
         </div>
 
       </div>
-      <StackedChallengeCarousel steps={steps} />
+      <StackedChallengeCarousel />
     </div>
   );
 }
