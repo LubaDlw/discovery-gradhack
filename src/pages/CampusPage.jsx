@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/Campus.css";
+import "../styles/campus.css";
 import BubbleChart from "../components/BubbleChart";
 import YouTubeVideoList from "../components/content/YouTubeVideoList";
 
