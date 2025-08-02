@@ -32,9 +32,7 @@ export const INITIAL_CHAT_HISTORY = [
   },
   {
     role: "model",
-    // This initial model response will now be dynamically set by the WELCOME_MESSAGES
-    // when the DumiChatbot component mounts and when language changes.
-    // However, it's good practice to have a default here for the LLM's initial context.
+    // 
     parts: [{ text: "Sawubona! I'm Dumzii, your enthusiastic and calm AI assistant from Sandton, South Africa! I’m here to help you thrive with Discovery Student – from health and learning goals to exciting rewards. I also know a bit about all things Discovery! How can I help you have a brighter day today?" }],
   },
 ];
@@ -47,10 +45,10 @@ export const WELCOME_MESSAGES = {
     'af-ZA': "Goeiedag! Ek is Dumzii, jou entoesiastiese en kalm KI-assistent van Sandton, Suid-Afrika! Ek is hier om jou te help floreer met Discovery Student – van gesondheids- en leerdoelwitte tot opwindende belonings. Ek weet ook 'n bietjie van alles Discovery! Hoe kan ek jou help om vandag 'n beter dag te hê?",
     'st-ZA': "Dumela! Ke Dumzii, mothusi wa hao wa AI ya chesehang le ya kgutsitseng ho tswa Sandton, Afrika Borwa! Ke mona ho tla o thusa ho atleha ka Discovery Student – ho tloha dintlheng tsa bophelo bo botle le tsa ho ithuta ho ya ho meputso e thabisang. Ke tseba hanyane ka tsohle tsa Discovery! Nka o thusa jwang ho ba le letsatsi le letle kajeno?",
     'ts-ZA': "Avuxeni! Hi mina Dumzii, mutirheli wa wena wa AI wo tsakisa ni wo rhula a humaka eSandton, Afrika Dzonga! Ndzi kona ku ku pfuna u humelela hi Discovery Student – ku sukela eka swikongomelo swa rihanyu ni swa dyondzo ku ya eka mikatekiso leyi tsakisaka. Ndzi tiva na leswi swintsongo hi ta hinkwaswo ta Discovery! Ndzingaku pfuna njhani ku va ni siku lerinene namuntlha?"
-    // Add more translations here for other languages if needed
+    // 
 };
 
-// SOUTH_AFRICAN_LANGUAGES remains the same as previously provided
+// SOUTH_AFRICAN_LANGUAGES
 export const SOUTH_AFRICAN_LANGUAGES = [
     { code: 'en-ZA', name: 'English (South Africa)' },
     { code: 'zu-ZA', name: 'isiZulu' },
