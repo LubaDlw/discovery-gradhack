@@ -121,3 +121,47 @@
   background-color: #103D81;
   color: white;
 }
+ .wellness-page-container {
+          min-height: 5vh;
+          padding: 20px;
+        }
+
+        .main-content-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 40px;
+          margin-left: 290px;
+          margin: 0 auto;
+          align-items: start;
+        }
+
+        .wellness-content {
+          min-height: 400px;
+        }
+
+        .mood-wheel-section {
+          background: #64497e;
+          border-radius: 16px;
+          padding: 24px;
+          width: 600px;
+          margin-left: 90px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          border: 1px solid #e2e8f0;
+          top: 20px;
+        }
+
+        .mood-wheel-title {
+          font-size: 20px;
+          font-weight: 700;
+          color: #FFEBD7;
+          margin: 0 0 8px 0;
+          text-align: center;
+        }
+
+        .mood-wheel-subtitle {
+          font-size: 14px;
+          color: #FFEBD7;
+          text-align: center;
+          margin: 0 0 20px 0;
+          line-height: 1.4;
+        }

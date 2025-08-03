@@ -17,6 +17,7 @@ import VideoPlayerPage from "./pages/VideoPlayerPage";
 
 // Import your CSS files
 import "./styles/WellnessPage.css";
+import "./styles/Moodwheel.css";
 import Day2Task1 from "./Wellness Checks/Day2Task1"; // steps counter challenge
 import Day3Task1 from "./Wellness Checks/Day3Task1";  // water in-take route
 import Day1Streak1 from "./Financial Challenges/Day1Streak1"; // savings video
