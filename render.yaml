@@ -1,0 +1,10 @@
+type: web
+  name: my-fastapi-backend           # Change this to your desired service name
+  env: python
+  plan: free
+  region: oregon                     # Change to your preferred region (e.g., virginia, ireland)
+  branch: main                      # Change if your main branch is named differently
+  buildCommand: pip install -r requirements.txt
+  startCommand: uvicorn server:app --host 0.0.0.0 --port 10000
+  healthCheckPath: /
+  autoDeploy: true
