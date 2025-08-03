@@ -16,7 +16,7 @@ import StackedChallengeCarousel from "../components/StackedChallengeCarousel";
 import { color } from "d3";
 
 function HomePage() {
-  const steps = useSimulatedSteps();
+  const [steps, manuallyAddSteps] = useSimulatedSteps();
   const [showInfo, setShowInfo] = useState(false);
   const [showLeaderboardInfo, setShowLeaderboardInfo] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
@@ -96,6 +96,21 @@ function HomePage() {
                 <div className="challenge-description">
                   Complete the recommended steps to qualify for this week’s gameboard.
                 </div>
+                <button
+                  onClick={() => manuallyAddSteps(10000)}
+                  style={{
+                    marginTop: "10px",
+                    padding: "4px 8px",
+                    fontSize: "0.7rem",
+                    backgroundColor: "#e0e0e0",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer"
+                  }}
+                >
+                  +10,000 steps
+                </button>
+
               </div>
               
             </div>

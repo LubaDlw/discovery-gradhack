@@ -9,29 +9,30 @@ export default function useSimulatedSteps() {
     let timeoutId;
 
     const simulateStepIncrease = () => {
-      // Only simulate if not reached 13,000
       if (sharedSteps >= 13000) {
         sharedSteps = 13000;
         setSteps(sharedSteps);
-        return; // Stop the loop
+        return;
       }
 
       const stepIncrement = Math.floor(Math.random() * 8) + 1;
-      sharedSteps = Math.min(sharedSteps + stepIncrement, 13000); // Clamp to 13,000
+      sharedSteps = Math.min(sharedSteps + stepIncrement, 13000);
       setSteps(sharedSteps);
 
       const delay = Math.floor(Math.random() * 8000) + 2000;
       timeoutId = setTimeout(simulateStepIncrease, delay);
     };
 
-    simulateStepIncrease(); // Start simulation
+    simulateStepIncrease();
 
     return () => clearTimeout(timeoutId);
   }, []);
 
-  useEffect(() => {
+  // Add manual increment function
+  const manuallyAddSteps = (amount) => {
+    sharedSteps = Math.min(sharedSteps + amount, 13000);
     setSteps(sharedSteps);
-  }, []);
+  };
 
-  return steps;
+  return [steps, manuallyAddSteps]; // Return both state and function
 }
