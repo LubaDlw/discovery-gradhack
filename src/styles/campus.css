@@ -6,7 +6,7 @@
   }
   
   .campus-page-container {
-    padding-top: 40px;
+    padding-top: 20px;
     padding-left: 100px;
     padding-right: 100px;
   }
@@ -17,7 +17,7 @@
     font-size: 1.5rem;
     letter-spacing: 1px;
     margin-left: 15px;
-    color: #2F3A6E; 
+    color: #2D376D; 
   }
   
   .campus-top-section {
@@ -31,14 +31,18 @@
   }
   
   .campus-white-box {
+    width: 40%;
     background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0.15, 0.15);
+    padding: 10px 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     border-radius: 20px;
+    position: relative;
+    z-index: 10;  
   }
   
   .campus-category-section {
-    margin-left: -155px;
+    margin-top: 20px;
+    margin-left: 30px;
   }
   
   .campus-icons-container {
@@ -48,7 +52,7 @@
   }
   
   .campus-blue-section {
-    background-color: #32436F; 
+    background-color: #2D376D; 
     padding: 30px 20px;
     border-radius: 20px;
     color: white;
@@ -114,4 +118,6 @@
   
   .Youtube-list {
     margin-top: 150px;
+    font-family: Discovery-Font;
+    color: #2D376D;
   }
