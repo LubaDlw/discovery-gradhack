@@ -14,19 +14,19 @@ export default function StackedChallengeCarousel({ steps }) {
 
   const challenges = [
     {
-      name: "Step Streak",
+      name: "Walk Challenge",
       icon: runIcon,
       progress: `${Math.floor(steps).toLocaleString()} / 13 000 steps`,
     },
     {
-      name: "Water Tracker",
+      name: "Finance for Dummies",
       icon: financeIcon,
-      progress: "5 glasses today",
+      progress: "3 / 5 quizzes",
     },
     {
       name: "Mindfulness",
       icon: lotusIcon,
-      progress: "2 sessions completed",
+      progress: "15min / 45min completed",
     },
   ];
 
