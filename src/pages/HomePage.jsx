@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import "../styles/Home.css";
 import stepsIcon from '../assets/run grey.png';
@@ -19,6 +19,7 @@ function HomePage() {
   const steps = useSimulatedSteps();
   const [showInfo, setShowInfo] = useState(false);
   const [showLeaderboardInfo, setShowLeaderboardInfo] = useState(false);
+  const [activeEvent, setActiveEvent] = useState(null);
 
   // Calculate wellness progress % out of 13000 steps
   const wellnessProgress = Math.min((steps / 13000) * 100, 100);
@@ -101,7 +102,14 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="block-row">
+        <div
+          className="block-row"
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "20px",
+          }}
+        >
           {/* Up Next Week */}
           <div className="card-container" style={{ marginLeft: "40px" }}>
             <p className="card-title">Up next week:</p>
@@ -124,16 +132,54 @@ function HomePage() {
 
           {/* Leaderboard */}
           <div className="card-container" style={{ maxWidth: "670px", flex: 1 }}>
-            <div className="card-header">
-              <p className="card-title">Leaderboard</p>
-              <img
-                src={infoIcon}
-                alt="Info"
-                className="info-icon"
-                onClick={() => setShowLeaderboardInfo(!showLeaderboardInfo)}
-              />
-            </div>
-            <UniversityLineGraph />
+          <div className="card-header">
+            <p className="card-title">Leaderboard</p>
+            <img
+              src={infoIcon}
+              alt="Info"
+              className="info-icon"
+              onClick={() => setShowLeaderboardInfo(!showLeaderboardInfo)}
+            />
+          </div>
+
+          <UniversityLineGraph activeEvent={activeEvent} />
+
+          {/* Event filter buttons */}
+          <div className="event-button-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
+            {[...Array(8)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveEvent(i + 1)}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: activeEvent === i + 1 ? "#75517A" : "#e0e0e0",
+                  color: activeEvent === i + 1 ? "#fff" : "#000",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer"
+                }}
+              >
+                Event {i + 1}
+              </button>
+            ))}
+            {/* Clear filter button */}
+            <button
+              onClick={() => setActiveEvent(null)}
+              style={{
+                gridColumn: "span 4",
+                padding: "0.5rem 1rem",
+                marginTop: "0.5rem",
+                backgroundColor: "#ccc",
+                color: "#000",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer"
+              }}
+            >
+              Show All Events
+            </button>
+          </div>
+
             {showLeaderboardInfo && (
               <div className="info-popup right-aligned">
                 <p>Leaderboard shows top performers in wellness activities this week.</p>

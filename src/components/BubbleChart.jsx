@@ -26,11 +26,12 @@ const BubbleChart = ({ data }) => {
 
     const color = d3.scaleOrdinal()
       .domain(data.map(d => d.name))
-      .range(["#D0B4BD", "#9A7196", "#77547F", "#2F2649", "#907181"]);
+      .range(["#25336E", "#8474B7", "#72CBD7", "#7761A9", "#130F3A"]);
 
     const g = svg
       .attr("viewBox", `0 0 ${width} ${height}`)
-      .style("background-color", "#32436F")
+      .style("background-color", "#2D376D")
+      .style("color", "#2D376D")
       .append("g")
       .attr("transform", "translate(50, -20)");
 
