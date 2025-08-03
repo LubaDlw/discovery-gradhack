@@ -9,41 +9,61 @@ import json
 from firebase_admin import firestore
 from notifications import send_push_notification
 
-# import firebase_admin
-# from firebase_admin import credentials, firestore
+TIP_SENTENCES = {
+    "meal prep": "Try preparing your meals in advance to save time and eat healthier.",
+    "savings account": "Open a savings account to manage your finances more effectively.",
+    "counseling": "Consider counseling sessions to help manage anxiety and stress.",
+    "study group": "Join a study group to improve your academic performance.",
+    "mental health check-in": "Schedule regular mental health check-ins to maintain your wellbeing.",
+    "meal planning": "Plan your meals ahead to avoid fast food and eat balanced diets.",
+    "budgeting app": "Use a budgeting app to keep track of your expenses and savings.",
+    "mindfulness": "Practice mindfulness techniques to reduce anxiety and improve focus.",
+    "time management course": "Take a time management course to better organize your tasks.",
+    "walks or outdoor breaks": "Take walks or outdoor breaks to reduce stress and improve mood.",
+    "open a student savings account": "Open a student savings account to build financial habits early.",
+    "academic advisor consultation": "Consult with an academic advisor to plan your education path.",
+    "healthy eating course": "Enroll in a healthy eating course to learn nutritious meal choices.",
+    "peer support group": "Join a peer support group to share experiences and gain encouragement.",
+    "investment webinar": "Attend an investment webinar to learn about growing your finances.",
+    "library resources": "Utilize library resources to support your academic studies.",
+    "relaxation techniques": "Practice relaxation techniques like deep breathing or meditation daily.",
+    "cost-cutting tips": "Apply cost-cutting tips to manage your budget more effectively.",
+    "healthy alternatives": "Choose healthy food alternatives to improve your diet.",
+    "coping strategies": "Learn coping strategies to manage anxiety symptoms better.",
+    "retirement planning": "Start retirement planning early to secure your financial future.",
+    "peer tutoring": "Engage in peer tutoring to strengthen your understanding of subjects.",
+    "yoga sessions": "Participate in yoga sessions to improve physical and mental health.",
+    "bill reminders": "Set bill reminders to avoid late payments and extra fees.",
+    "nutrition facts education": "Educate yourself on nutrition facts to make better food choices.",
+    "journaling": "Keep a journal to help express and manage your emotions.",
+    "credit score tips": "Follow credit score tips to improve your financial reliability.",
+    "exam preparation": "Prepare thoroughly for exams to boost your academic success.",
+    "mindful breathing": "Practice mindful breathing exercises to calm your mind.",
+    "expense tracking app": "Use an expense tracking app to monitor your spending habits.",
+    "meal substitutions": "Make healthy meal substitutions to maintain a balanced diet.",
+    "support groups": "Join support groups to connect with others facing similar challenges.",
+    "savings challenge": "Participate in savings challenges to build your saving discipline.",
+    "study schedule": "Create and follow a study schedule for consistent academic progress.",
+    "meditation": "Incorporate meditation into your routine to reduce stress and enhance focus.",
+    "budget app": "Use a budget app to organize your finances efficiently.",
+    "healthy eating": "Adopt healthy eating habits for better physical and mental health.",
+    "loan advice": "Seek loan advice to make informed borrowing decisions.",
+    "sleep hygiene": "Maintain good sleep hygiene to improve your overall health.",
+    "debt management": "Implement debt management strategies to reduce financial stress.",
+    "saving tips": "Use saving tips to grow your financial reserves steadily.",
+    "peer support": "Engage with peer support for anxiety relief and motivation.",
+    "investment advice": "Consult with experts for reliable investment advice.",
+    "yoga": "Practice yoga regularly to enhance your physical and mental wellbeing.",
+    "financial planning": "Create a financial plan to manage your money wisely.",
+    "nutrition education": "Educate yourself about nutrition to make healthier food choices.",
+    "credit tips": "Follow credit tips to maintain a strong credit profile.",
+    "exercise reminders": "Set daily exercise reminders to stay active and healthy.",
+    "art therapy sessions": "Try art therapy sessions to express creativity and relieve stress.",
+    "visualization exercises": "Use visualization exercises to promote relaxation and focus.",
+    "craving management strategies": "Apply craving management strategies to support addiction recovery.",
+    "joining support groups": "Join support groups for shared experiences and advice."
+}
 
-# Firebase setup
-# cred = credentials.Certificate("serviceAccountKey.json")
-# firebase_admin.initialize_app(cred)
-# db = firestore.client()
-# @app.post("/recommend")
-# def recommend(data: UserInput):
-#     fb = 1 if data.module_feedback == "liked" else 0
-#     input_data = [
-#         data.active_challenges, data.daily_steps, data.water_logged,
-#         data.mood_score, data.videos_watched, data.modules_completed,
-#         fb, data.fastfood_visits, data.total_spending, data.heatmap_darkness
-#     ]
-#     prediction = model.predict(np.array(input_data))[0]
-#
-#     # Save to Firestore
-#     doc = {
-#         "active_challenges": data.active_challenges,
-#         "daily_steps": data.daily_steps,
-#         "water_logged": data.water_logged,
-#         "mood_score": data.mood_score,
-#         "videos_watched": data.videos_watched,
-#         "modules_completed": data.modules_completed,
-#         "module_feedback": data.module_feedback,
-#         "fastfood_visits": data.fastfood_visits,
-#         "total_spending": data.total_spending,
-#         "heatmap_darkness": data.heatmap_darkness,
-#         "recommendation": prediction
-#     }
-#
-#     db.collection("user_data").add(doc)
-#
-#     return {"recommendation": prediction}
 
 app = FastAPI()
 
@@ -122,9 +142,9 @@ def recommend(data: InputData):
 
         # Decode label to tip string
         tip = tip_encoder.inverse_transform(prediction)[0]
-        print( "Final recommendation:", tip)
-
-        return {"recommendation": tip}
+        tip_sentence = TIP_SENTENCES.get(tip, f"Recommended action: {tip.replace('_', ' ').capitalize()}")
+        print("Final recommendation:", tip_sentence)
+        return {"recommendation": tip_sentence}
     
     except Exception as e:
         print("❌ ERROR:", str(e))
