@@ -23,12 +23,12 @@ function Moodwheel() {
 
   // Base user data (from your original component)
   const baseUserData = {
-    fast_food_pct: 0.48,
-    logins_per_week: 9,
-    mood_score: 7,
+    fast_food_pct: 0.78,
+    logins_per_week: 4,
+    mood_score: 5,
     daily_steps: 6705,
-    water_drank: 3.29,
-    chatbot_topic: "anxiety" // This will be updated based on mood selection
+    water_drank: 1.28,
+    chatbot_topic: "stress" // This will be updated based on mood selection
   };
 
   /*const saveTipToFirestore = async (tip, moodTopic) => {

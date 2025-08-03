@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
-from rec_engine.features import FeatureBuilder
+from features import FeatureBuilder
 import json
 #from firebase_admin import firestore
 #from notifications import send_push_notification

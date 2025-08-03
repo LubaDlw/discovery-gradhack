@@ -28,7 +28,7 @@ function CampusPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 60000);
+    }, 15000);
     return () => clearInterval(interval);
   }, []);
 
