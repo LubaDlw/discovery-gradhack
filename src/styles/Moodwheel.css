@@ -1,0 +1,281 @@
+.mood-wheel-container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 300px;
+          width: 300px;
+          margin: 20px auto;
+        }
+
+        .mood-wheel {
+          position: relative;
+          width: 260px;
+          height: 240px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .wheel-center {
+          position: absolute;
+          width: 80px;
+          height: 80px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          z-index: 10;
+        }
+
+        .center-text {
+          font-size: 10px;
+          font-weight: 600;
+          text-align: center;
+          color: #4a5568;
+          line-height: 1.2;
+        }
+
+        .mood-item {
+          position: absolute;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 5;
+        }
+
+        .mood-item:hover {
+          transform: rotate(var(--angle)) translateY(-130px) rotate(calc(-1 * var(--angle))) scale(1.1);
+        }
+
+        .mood-item.loading {
+          animation: pulse 1.5s infinite;
+        }
+
+        .mood-face {
+          width: 60px;
+          height: 60px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+          border: 3px solid transparent;
+        }
+
+        .mood-face:hover {
+          border-color: #4299e1;
+          box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+        }
+
+        .mood-emoji {
+          font-size: 20px;
+          margin-bottom: 2px;
+        }
+
+        .mood-label {
+          font-size: 8px;
+          font-weight: 600;
+          color: #4a5568;
+          text-align: center;
+        }
+
+        .loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+         
+        }
+
+        .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-top: 4px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 20px;
+        }
+
+        .popup-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          backdrop-filter: blur(5px);
+        }
+
+        .popup-content {
+          background: white;
+          border-radius: 16px;
+          width: 90%;
+          max-width: 500px;
+          max-height: 80vh;
+          overflow-y: auto;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+          animation: popupSlideIn 0.3s ease-out;
+        }
+
+        .popup-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 24px 16px;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .popup-header h3 {
+          margin: 0;
+          font-size: 20px;
+          font-weight: 700;
+          color: #2d3748;
+        }
+
+        .close-btn {
+          background: none;
+          border: none;
+          font-size: 24px;
+          cursor: pointer;
+          color: #718096;
+          padding: 0;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+          background: #f7fafc;
+          color: #4a5568;
+        }
+
+        .popup-body {
+          padding: 24px;
+        }
+
+        .recommendation-content {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .recommendation-icon {
+          font-size: 24px;
+          margin-top: 4px;
+        }
+
+        .recommendation-content p {
+          margin: 0;
+          font-size: 16px;
+          line-height: 1.6;
+          color: #4a5568;
+        }
+
+        .popup-footer {
+          padding: 16px 24px 24px;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .popup-action-btn {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .popup-action-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+
+        @keyframes popupSlideIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .mood-wheel-container {
+            height: 250px;
+            width: 250px;
+          }
+
+          .mood-wheel {
+            width: 200px;
+            height: 200px;
+          }
+
+          .wheel-center {
+            width: 60px;
+            height: 60px;
+          }
+
+          .center-text {
+            font-size: 8px;
+          }
+
+          .mood-face {
+            width: 50px;
+            height: 50px;
+          }
+
+          .mood-emoji {
+            font-size: 16px;
+          }
+
+          .mood-label {
+            font-size: 7px;
+          }
+
+          .mood-item {
+            transform: rotate(var(--angle)) translateY(-100px) rotate(calc(-1 * var(--angle)));
+          }
+
+          .mood-item:hover {
+            transform: rotate(var(--angle)) translateY(-105px) rotate(calc(-1 * var(--angle))) scale(1.05);
+          }
+        }

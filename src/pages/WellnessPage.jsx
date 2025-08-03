@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import{ useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Task1Icon from "../assets/menu_icon.png";
+import Moodwheel from "../components/Moodwheel";
 //import "../styles/WellnessPage.css";
 
 function WellnessPage() {
@@ -76,6 +77,12 @@ function WellnessPage() {
       )}
       </div>
       </div>
+       {/* Right side - mood wheel */}
+        <div className="mood-wheel-section">
+          <h3 className="mood-wheel-title">Mood-Based Recommendations</h3>
+          <p className="mood-wheel-subtitle">Click on how you're feeling to get personalized wellness tips</p>
+          <Moodwheel />
+        </div>
     </div>
   );
 }
