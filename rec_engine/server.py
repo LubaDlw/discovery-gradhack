@@ -122,6 +122,7 @@ def recommend(data: InputData):
 
         # Decode label to tip string
         tip = tip_encoder.inverse_transform(prediction)[0]
+        print( "Final recommendation:", tip)
 
         return {"recommendation": tip}
     

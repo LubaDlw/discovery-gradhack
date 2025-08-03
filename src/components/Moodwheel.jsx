@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { db } from '../../firebase'; // your firebase client config file
-import { doc, setDoc } from 'firebase/firestore';
+//import { db } from '../../firebase'; // your firebase client config file
+//import { doc, setDoc } from 'firebase/firestore';
 import LoadingScreen from './LoadingScreen';
 
 function Moodwheel() {
@@ -31,7 +31,7 @@ function Moodwheel() {
     chatbot_topic: "anxiety" // This will be updated based on mood selection
   };
 
-  const saveTipToFirestore = async (tip, moodTopic) => {
+  /*const saveTipToFirestore = async (tip, moodTopic) => {
     try {
       await setDoc(doc(db, 'recommendations', 'user1'), {
         recommendation: tip,
@@ -41,7 +41,7 @@ function Moodwheel() {
     } catch (e) {
       console.error("Error saving recommendation", e);
     }
-  };
+  };*/
 
   const getRecommendation = async (moodTopic) => {
     setLoading(true);
@@ -68,7 +68,7 @@ function Moodwheel() {
       } else {
         setCurrentRecommendation(result.recommendation);
         // Save to Firestore
-        await saveTipToFirestore(result.recommendation, moodTopic);
+        //await saveTipToFirestore(result.recommendation, moodTopic);
         setShowPopup(true);
       }
     } catch (err) {

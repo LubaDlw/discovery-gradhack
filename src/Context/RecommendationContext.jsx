@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { db} from '../../firebase'; // your firebase client config file
-import { doc, setDoc } from 'firebase/firestore';
+//import { db} from '../../firebase'; // your firebase client config file
+//import { doc, setDoc } from 'firebase/firestore';
 
-
+/*
 const saveTipToFirestore = async (tip) => { // Remove userId parameter
   try {
     await setDoc(doc(db, 'recommendations', 'user1'), { // Hardcode 'user1'
@@ -12,7 +12,7 @@ const saveTipToFirestore = async (tip) => { // Remove userId parameter
   } catch (e) {
     console.error("Error saving recommendation", e);
   }
-};
+};*/
 
 
 function RecommendationContext() {
@@ -53,7 +53,7 @@ function RecommendationContext() {
         setRecommendation(result.recommendation);
         setError('');
         // Save to Firestore with hardcoded user
-        await saveTipToFirestore(result.recommendation); // Remove auth check
+        //await saveTipToFirestore(result.recommendation); // Remove auth check
       }
         
     }
