@@ -24,6 +24,13 @@
   letter-spacing: 1px;
 }
 
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar-header {
+    padding: 8px 15px;
+  }
+}
+
 .navbar-container {
   display: flex;
   align-items: center;
@@ -48,6 +55,29 @@
   width: 65px;  
   height: 67px;
   object-fit: contain;
+}
+
+/* Responsive logo styles */
+@media (max-width: 768px) {
+  .logo-section .logo-text {
+    font-size: 24px;
+  }
+  
+  .logo-img {
+    width: 50px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-section .logo-text {
+    font-size: 20px;
+  }
+  
+  .logo-img {
+    width: 40px;
+    height: 42px;
+  }
 }
 
 
@@ -83,6 +113,46 @@
   border-radius: 4px;
 }
 
+/* Responsive navigation styles */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .nav-button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .auth-section .login-button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-links {
+    gap: 8px;
+  }
+  
+  .nav-button {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 5px;
+  }
+  
+  .nav-button {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+}
+
 .student-overlay {
   position: absolute;
   top: 40px;
@@ -105,6 +175,30 @@
   animation: pulse 3s ease-in-out infinite;
 }
 
+/* Responsive student overlay */
+@media (max-width: 768px) {
+  .student-overlay {
+    top: 30px;
+    left: 90px;
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .student-overlay {
+    top: 25px;
+    left: 75px;
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-overlay {
+    top: 20px;
+    left: 60px;
+    font-size: 24px;
+  }
+}
 
 .navbar-top {
   display: flex;
@@ -127,4 +221,35 @@
 
 .nav-links button:nth-child(6) {
   margin-left: auto;
+}
+
+/* Responsive navbar layout */
+@media (max-width: 768px) {
+  .navbar-top {
+    padding-bottom: 30px;
+  }
+  
+  .nav-links button:nth-child(-n+5) {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-top {
+    padding-bottom: 25px;
+  }
+  
+  .nav-links button:nth-child(-n+5) {
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-top {
+    padding-bottom: 20px;
+  }
+  
+  .nav-links button:nth-child(-n+5) {
+    margin-right: 5px;
+  }
 }

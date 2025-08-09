@@ -36,7 +36,12 @@ function HomePage() {
         <div className="white-box reward-sections">
           <h3>Reward Sections</h3>
 
-          <div className="rewards-icons-container" style={{ display: 'flex', gap: '3rem', justifyContent: 'center' }}>
+          <div className="rewards-icons-container" style={{ 
+            display: 'flex', 
+            gap: '3rem', 
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
           {/* Finance */}
           <div style={{ position: 'relative', width: 120, height: 120 }}>
             <DonutProgress progress={financeProgress} size={120} strokeWidth={10} color="#4856B9"/>
@@ -145,7 +150,12 @@ function HomePage() {
           <UniversityLineGraph activeEvent={activeEvent} />
 
           {/* Event filter buttons */}
-          <div className="event-button-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
+          <div className="event-button-grid" style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', 
+            gap: '0.5rem', 
+            marginBottom: '1rem' 
+          }}>
             {[...Array(8)].map((_, i) => (
               <button
                 key={i}
@@ -195,4 +205,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
